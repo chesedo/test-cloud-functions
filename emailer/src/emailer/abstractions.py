@@ -12,7 +12,7 @@ class IEmailer(abc.ABC):
 
     @abc.abstractmethod
     def send(self, aEmail: Email) -> bool:
-        """Sends out the given email
+        """Send out the given email
         
         Arguments:
             aEmail {Email} -- The email to send

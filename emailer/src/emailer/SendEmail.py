@@ -5,7 +5,7 @@ from emailer.models.email import Email
 
 
 def SendEmail(aEmailer: IEmailer):
-    """Sends an email using a specific emailer
+    """Send an email using a specific emailer
     
     Arguments:
         aEmailer {IEmailer} -- The emailer to use
