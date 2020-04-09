@@ -8,7 +8,10 @@
         "source.fixAll": true
     },
     "python.testing.pytestArgs": [
-        "emailer"
+        "emailer",
+        "--doctest-modules", // Test code in documentation
+        "--doctest-continue-on-failure",
+        "--mypy" // Test static types
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
