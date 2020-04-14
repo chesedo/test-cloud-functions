@@ -21,3 +21,21 @@ class IEmailer(abc.ABC):
             bool -- True if successful
         """
         pass
+
+
+class IBucketReader(abc.ABC):
+    """Interface for reading a file's content from a bucket
+    """
+
+    @abc.abstractmethod
+    def get_content(self, aBucket: str, aFile: str) -> bytes:
+        """Get a file's content from a bucket
+        
+        Arguments:
+            aBucket {str} -- Bucket to get the content from
+            aFile {str} -- File's content to get
+        
+        Returns:
+            bytes -- Content of file
+        """
+        pass
