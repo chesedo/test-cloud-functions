@@ -128,3 +128,47 @@ class TestEmail_to_sendgrid_email:
                 },
             ],
         }
+
+
+class TestEamil_from_email_metadata:
+    def test_missing_optional_data(self):
+        """Test when optional metadata is missing
+        To use defaults instead
+        """
+
+        assert Email.from_email_metadata(
+            {
+                "to": "test@domain.com",
+                "html": "Html content",
+                "text": "Plain text content",
+            }
+        ) == Email(
+            subject="MTB report",
+            to=["test@domain.com"],
+            from_email="no-reply@mtbpower.com",
+            html="Html content",
+            plain_text="Plain text content",
+        )
+
+    def test_complete_data(self):
+        """Test when complete metadata is given
+        To use all of them
+        """
+
+        assert Email.from_email_metadata(
+            {
+                "subject": "Important",
+                "to": "test@domain.com;john@doe.me",
+                "from": "somewhere@yahoo.com",
+                "html": "Html",
+                "text": "Plain",
+                "categories": "emailer;test",
+            }
+        ) == Email(
+            subject="Important",
+            to=["test@domain.com", "john@doe.me"],
+            from_email="somewhere@yahoo.com",
+            html="Html",
+            plain_text="Plain",
+            categories=["emailer", "test"],
+        )

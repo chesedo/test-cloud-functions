@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 from base64 import b64encode
 from dataclasses import dataclass, field
 from typing import List, Optional
 
 from sendgrid.helpers.mail import Attachment as SGAttachment
 from sendgrid.helpers.mail import Category, Mail
+
+from emailer.models.file_event import EmailMeta
 
 
 @dataclass
@@ -77,3 +81,28 @@ class Email:
             lMail.attachment = self.attachment.to_sendgrid_attachment()
 
         return lMail
+
+    @classmethod
+    def from_email_metadata(cls, aMeta: EmailMeta) -> Email:
+        """Build an email from email metadata
+
+        Arguments:
+            aMeta {EmailMeta} - The metadata to build the email from
+        
+        Returns:
+            Email -- The email that was build
+        """
+
+        lCategories = []
+
+        if "categories" in aMeta:
+            lCategories = aMeta["categories"].split(";")
+
+        return Email(
+            subject=aMeta.get("subject", "MTB report"),
+            to=aMeta["to"].split(";"),
+            from_email=aMeta.get("from", "no-reply@mtbpower.com"),
+            html=aMeta["html"],
+            plain_text=aMeta["text"],
+            categories=lCategories,
+        )
