@@ -1,4 +1,5 @@
 import logging
+from typing import Mapping
 
 from mypy_extensions import TypedDict
 
@@ -30,7 +31,7 @@ FileEvent = TypedDict(
 )
 
 
-def IsEmailMeta(aMeta: dict) -> bool:
+def IsEmailMeta(aMeta: Mapping) -> bool:
     """Verify if the metadata dictionary has the metadata to qualify as an email
     
     Arguments:
