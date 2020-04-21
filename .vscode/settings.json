@@ -1,5 +1,6 @@
 {
     "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
     "python.linting.mypyEnabled": true,
     "python.linting.flake8Enabled": true,
     "python.formatting.provider": "black",
@@ -8,9 +9,7 @@
         "source.fixAll": true
     },
     "python.testing.pytestArgs": [
-        "emailer",
-        "--doctest-modules", // Test code in documentation
-        "--doctest-continue-on-failure"
+        "emailer"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
