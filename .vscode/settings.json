@@ -1,7 +1,7 @@
 {
-    "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.linting.mypyEnabled": true,
+    "python.linting.flake8Enabled": true,
     "python.formatting.provider": "black",
     "editor.codeActionsOnSave": {
         "source.organizeImports": true,
@@ -10,8 +10,7 @@
     "python.testing.pytestArgs": [
         "emailer",
         "--doctest-modules", // Test code in documentation
-        "--doctest-continue-on-failure",
-        "--mypy" // Test static types
+        "--doctest-continue-on-failure"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
