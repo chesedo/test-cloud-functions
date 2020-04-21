@@ -26,7 +26,7 @@ class Attachment:
 
     def to_sendgrid_attachment(self) -> SGAttachment:
         """Transform into a SendGrid attachment
-        
+
         Returns:
             SGAttachment -- SendGrid attachment version of this attachment
         """
@@ -49,7 +49,8 @@ class Email:
         to {List[str]} -- List of recipient that should receive the email
         from_email {str} -- The address of the sender
         categories {List[str]} -- List of categories for this email
-        attachment {Optional[Attachment]} -- The file to attach to this email if one is needed
+        attachment {Optional[Attachment]} -- The file to attach to this email
+            if one is needed
     """
 
     subject: str
@@ -62,7 +63,7 @@ class Email:
 
     def to_sendgrid_email(self) -> Mail:
         """Transform into a SendGrid email
-        
+
         Returns:
             Mail -- SendGrid version of this email
         """
@@ -88,7 +89,7 @@ class Email:
 
         Arguments:
             aMeta {EmailMeta} - The metadata to build the email from
-        
+
         Returns:
             Email -- The email that was build
         """

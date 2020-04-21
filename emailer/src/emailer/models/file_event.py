@@ -1,5 +1,5 @@
 import logging
-from typing import Mapping
+from typing import Any, Mapping
 
 from mypy_extensions import TypedDict
 
@@ -31,12 +31,12 @@ FileEvent = TypedDict(
 )
 
 
-def IsEmailMeta(aMeta: Mapping) -> bool:
+def IsEmailMeta(aMeta: Mapping[str, Any]) -> bool:
     """Verify if the metadata dictionary has the metadata to qualify as an email
-    
+
     Arguments:
         aMeta {dict} -- The metadata dictionary
-    
+
     Returns:
         bool -- True if the matadata has complete email information
     """
@@ -59,10 +59,10 @@ def IsEmailMeta(aMeta: Mapping) -> bool:
 
 def IsFileCreated(aFile: FileEvent) -> bool:
     """Check if the file event is for a file that was created
-    
+
     Arguments:
         aFile {FileEvent} -- The file event
-    
+
     Returns:
         bool -- True if the event is for a created file
     """

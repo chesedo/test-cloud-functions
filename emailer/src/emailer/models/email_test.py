@@ -1,8 +1,8 @@
-from .email import Attachment, Email, Mail, SGAttachment
+from .email import Attachment, Email
 
 
 class TestAttachment:
-    def test_conversion_to_sendgrid_attachment(self):
+    def test_conversion_to_sendgrid_attachment(self) -> None:
         """Test converion to a SendGrid attachment
         """
 
@@ -19,7 +19,7 @@ class TestAttachment:
 
 
 class TestEmail_to_sendgrid_email:
-    def test_missing_optionals(self):
+    def test_missing_optionals(self) -> None:
         """Test to still convert when optionals are missing
         """
 
@@ -48,7 +48,7 @@ class TestEmail_to_sendgrid_email:
             ],
         }
 
-    def test_with_one_category(self):
+    def test_with_one_category(self) -> None:
         """Test that a single category is added correctly
         """
 
@@ -72,7 +72,7 @@ class TestEmail_to_sendgrid_email:
             "categories": ["cat"],
         }
 
-    def test_with_multiple_categories(self):
+    def test_with_multiple_categories(self) -> None:
         """Test that multiple categories are added correctly
         """
 
@@ -96,7 +96,7 @@ class TestEmail_to_sendgrid_email:
             "categories": ["cat4", "cat3", "cat2", "cat1"],
         }
 
-    def test_with_attachment(self):
+    def test_with_attachment(self) -> None:
         """Test that a single attachment is added correctly
         """
 
@@ -131,13 +131,13 @@ class TestEmail_to_sendgrid_email:
 
 
 class TestEamil_from_email_metadata:
-    def test_missing_optional_data(self):
+    def test_missing_optional_data(self) -> None:
         """Test when optional metadata is missing
         To use defaults instead
         """
 
         assert Email.from_email_metadata(
-            {
+            {  # type: ignore
                 "to": "test@domain.com",
                 "html": "Html content",
                 "text": "Plain text content",
@@ -150,7 +150,7 @@ class TestEamil_from_email_metadata:
             plain_text="Plain text content",
         )
 
-    def test_complete_data(self):
+    def test_complete_data(self) -> None:
         """Test when complete metadata is given
         To use all of them
         """

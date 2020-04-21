@@ -2,6 +2,7 @@
 """
 
 import abc
+from typing import Optional
 
 from .models.email import Email
 
@@ -13,10 +14,10 @@ class IEmailer(abc.ABC):
     @abc.abstractmethod
     def send(self, aEmail: Email) -> bool:
         """Send out the given email
-        
+
         Arguments:
             aEmail {Email} -- The email to send
-        
+
         Returns:
             bool -- True if successful
         """
@@ -28,13 +29,13 @@ class IBucketReader(abc.ABC):
     """
 
     @abc.abstractmethod
-    def get_content(self, aBucket: str, aFile: str) -> bytes:
+    def get_content(self, aBucket: str, aFile: str) -> Optional[bytes]:
         """Get a file's content from a bucket
-        
+
         Arguments:
             aBucket {str} -- Bucket to get the content from
             aFile {str} -- File's content to get
-        
+
         Returns:
             bytes -- Content of file
         """

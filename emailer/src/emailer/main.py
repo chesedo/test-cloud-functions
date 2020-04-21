@@ -12,7 +12,7 @@ CloudStorageClient = CloudStorage()
 
 def emailer(aData: FileEvent, aContext: Any) -> None:
     """HTTP end-point for send email from files uploaded to cloud storage
-    
+
     Arguments:
         aData {FileEvent} -- The file event that triggered this function
         aContext {Context} -- The context

@@ -1,12 +1,13 @@
 from unittest.mock import MagicMock, patch
 
 from emailer.models.email import Attachment, Email
+from emailer.models.file_event import FileEvent
 from emailer.SendEmail import SendEmail
 
 
 class TestSendEmail:
-    def setup_method(self):
-        self.Email = {
+    def setup_method(self) -> None:
+        self.Email: FileEvent = {
             "name": "FileName.txt",
             "metageneration": "1",
             "contentType": "fake/text",
@@ -29,7 +30,7 @@ class TestSendEmail:
         aBucketReaderMock: MagicMock,
         aEmailerMock: MagicMock,
         aLoggingMock: MagicMock,
-    ):
+    ) -> None:
         self.Email["metageneration"] = "0"
 
         SendEmail(
@@ -49,15 +50,16 @@ class TestSendEmail:
         aBucketReaderMock: MagicMock,
         aEmailerMock: MagicMock,
         aLoggingMock: MagicMock,
-    ):
-        del self.Email["metadata"]["to"]
+    ) -> None:
+        del self.Email["metadata"]["to"]  # type: ignore
 
         SendEmail(
             self.Email, aEmailerMock, aBucketReaderMock,
         )
 
         aLoggingMock.info.assert_called_with(
-            "FileName.txt does not contain the full email fields needed for emailing. It will be skipped."
+            "FileName.txt does not contain the full email fields needed for"
+            + " emailing. It will be skipped."
         )
         aLoggingMock.info.called_times(1)
 
@@ -69,16 +71,20 @@ class TestSendEmail:
         aBucketReaderMock: MagicMock,
         aEmailerMock: MagicMock,
         aLoggingMock: MagicMock,
-    ):
+    ) -> None:
         aBucketReaderMock.get_content.return_value = b""
 
         SendEmail(
             self.Email, aEmailerMock, aBucketReaderMock,
         )
 
-        aBucketReaderMock.get_content.assert_called_with("stub", "FileName.txt")
+        aBucketReaderMock.get_content.assert_called_with(
+            "stub", "FileName.txt"
+        )
 
-        aLoggingMock.info.assert_called_with("FileName.txt failed to download.")
+        aLoggingMock.info.assert_called_with(
+            "FileName.txt failed to download."
+        )
         aLoggingMock.info.called_times(1)
 
     @patch("emailer.SendEmail.logging")
@@ -89,13 +95,15 @@ class TestSendEmail:
         aBucketReaderMock: MagicMock,
         aEmailerMock: MagicMock,
         aLoggingMock: MagicMock,
-    ):
+    ) -> None:
         aBucketReaderMock.get_content.return_value = b"Some text"
         aEmailerMock.send.return_value = False
 
         SendEmail(self.Email, aEmailerMock, aBucketReaderMock)
 
-        aBucketReaderMock.get_content.assert_called_with("stub", "FileName.txt")
+        aBucketReaderMock.get_content.assert_called_with(
+            "stub", "FileName.txt"
+        )
         aEmailerMock.send.assert_called_with(
             Email(
                 subject="Subject",
@@ -105,7 +113,9 @@ class TestSendEmail:
                 from_email="from@domain.com",
                 categories=["cat1", "emailer", "0.1.0"],
                 attachment=Attachment(
-                    content=b"Some text", mime_type="fake/text", name="FileName.txt"
+                    content=b"Some text",
+                    mime_type="fake/text",
+                    name="FileName.txt",
                 ),
             )
         )
@@ -120,13 +130,15 @@ class TestSendEmail:
         aBucketReaderMock: MagicMock,
         aEmailerMock: MagicMock,
         aLoggingMock: MagicMock,
-    ):
+    ) -> None:
         aBucketReaderMock.get_content.return_value = b"Some text"
         aEmailerMock.send.return_value = True
 
         SendEmail(self.Email, aEmailerMock, aBucketReaderMock)
 
-        aBucketReaderMock.get_content.assert_called_with("stub", "FileName.txt")
+        aBucketReaderMock.get_content.assert_called_with(
+            "stub", "FileName.txt"
+        )
         aEmailerMock.send.assert_called_with(
             Email(
                 subject="Subject",
@@ -136,7 +148,9 @@ class TestSendEmail:
                 from_email="from@domain.com",
                 categories=["cat1", "emailer", "0.1.0"],
                 attachment=Attachment(
-                    content=b"Some text", mime_type="fake/text", name="FileName.txt"
+                    content=b"Some text",
+                    mime_type="fake/text",
+                    name="FileName.txt",
                 ),
             )
         )

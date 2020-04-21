@@ -1,4 +1,3 @@
-
 from typing import Optional, cast
 
 from google.cloud import storage
@@ -22,4 +21,6 @@ class CloudStorage(IBucketReader):
         Returns:
             bytes -- Content of file
         """
-        return cast(bytes, self.client.bucket(aBucket).blob(aFile).download_as_string())
+        return cast(
+            bytes, self.client.bucket(aBucket).blob(aFile).download_as_string()
+        )
