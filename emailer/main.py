@@ -21,4 +21,4 @@ def emailer(aData: FileEvent, aContext: Any) -> None:
     logging.basicConfig(level=logging.DEBUG)
     logging.info(f"Processing {aData}")
 
-    SendEmail(aData, SendGridClient, CloudStorageClient)
+    # SendEmail(aData, SendGridClient, CloudStorageClient)
