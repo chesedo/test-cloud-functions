@@ -8,6 +8,7 @@ authors = ["Pieter Engelbrecht <pengelbrecht@rems2.com>"]
 python = "^3.7"
 sendgrid = "^6.2.1"
 google-cloud-storage = "^1.27.0"
+mypy_extensions = "^0.4.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
