@@ -21,4 +21,7 @@ def emailer(aData: FileEvent, aContext: Any) -> None:
     logging.basicConfig(level=logging.DEBUG)
     logging.info(f"Processing {aData}")
 
-    # SendEmail(aData, SendGridClient, CloudStorageClient)
+    try:
+        SendEmail(aData, SendGridClient, CloudStorageClient)
+    except Exception as lException:
+        logging.critical(f"Processing failed: {lException}")
