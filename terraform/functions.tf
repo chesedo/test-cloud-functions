@@ -1,5 +1,5 @@
 resource "google_cloudfunctions_function" "emailer" {
-  name    = "py_emailer"
+  name    = "emailer"
   runtime = "python37"
 
   available_memory_mb = 128
@@ -13,6 +13,6 @@ resource "google_cloudfunctions_function" "emailer" {
     resource   = google_storage_bucket.testing.name
   }
   source_repository {
-    url = "https://source.developers.google.com/${google_sourcerepo_repository.test-cloud-functions.id}/moveable-aliases/master/paths/emailer/src/emailer/main.py"
+    url = "https://source.developers.google.com/${google_sourcerepo_repository.test-cloud-functions.id}/moveable-aliases/master/paths/emailer/"
   }
 }
