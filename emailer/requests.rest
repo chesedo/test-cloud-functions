@@ -1,0 +1,25 @@
+POST http://localhost:8080/
+content-type: application/json
+
+{
+    "data": {
+        "bucket": "eta-testing-bucket",
+        "contentType": "application/pdf",
+        "crc32c": "n1FYKg==",
+        "etag": "CLyS0+SX/OgCEAE=",
+        "generation": "1587563736647996",
+        "id": "eta-testing-bucket/Emails/Tshepong Operations Monthly engineering review data_2020-04-21.pdf/1587563736647996",
+        "kind": "storage#object",
+        "md5Hash": "u4oiWrnpBp2edLgU6cJzVA==",
+        "mediaLink": "https://www.googleapis.com/download/storage/v1/b/eta-testing-bucket/o/Emails%2FTshepong%20Operations%20Monthly%20engineering%20review%20data_2020-04-21.pdf?generation=1587563736647996&alt=media",
+        "metageneration": "1",
+        "name": "Emails/Tshepong Operations Monthly engineering review data_2020-04-21.pdf",
+        "selfLink": "https://www.googleapis.com/storage/v1/b/eta-testing-bucket/o/Emails%2FTshepong%20Operations%20Monthly%20engineering%20review%20data_2020-04-21.pdf",
+        "size": "436760",
+        "storageClass": "REGIONAL",
+        "timeCreated": "2020-04-22T13:55:36.647Z",
+        "timeStorageClassUpdated": "2020-04-22T13:55:36.647Z",
+        "updated": "2020-04-22T13:55:36.647Z"
+    },
+    "context": { }
+}
