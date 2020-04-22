@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from emailer.CloudStorage import CloudStorage
@@ -17,4 +18,6 @@ def emailer(aData: FileEvent, aContext: Any) -> None:
         aData {FileEvent} -- The file event that triggered this function
         aContext {Context} -- The context
     """
+    logging.info(f"Processing {aData}")
+
     SendEmail(aData, SendGridClient, CloudStorageClient)
