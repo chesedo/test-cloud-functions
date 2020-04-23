@@ -22,6 +22,13 @@ def SendEmail(
         logging.info(f"{aEvent['name']} was not created. Will skip it.")
         return
 
+    if "metadata" not in aEvent or aEvent["metadata"] is None:
+        logging.info(
+            f"{aEvent['name']} does not contain any metadata. It will"
+            + " be skipped."
+        )
+        return
+
     if not fe.IsEmailMeta(aEvent["metadata"]):
         logging.info(
             f"{aEvent['name']} does not contain the full email fields needed"

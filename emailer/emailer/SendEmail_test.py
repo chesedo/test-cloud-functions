@@ -45,6 +45,26 @@ class TestSendEmail:
     @patch("emailer.SendEmail.logging")
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
+    def test_file_missing_metadata(
+        self,
+        aBucketReaderMock: MagicMock,
+        aEmailerMock: MagicMock,
+        aLoggingMock: MagicMock,
+    ) -> None:
+        del self.Email["metadata"]  # type: ignore
+
+        SendEmail(
+            self.Email, aEmailerMock, aBucketReaderMock,
+        )
+
+        aLoggingMock.info.assert_called_with(
+            "FileName.txt does not contain any metadata. It will be skipped."
+        )
+        aLoggingMock.info.called_times(1)
+
+    @patch("emailer.SendEmail.logging")
+    @patch("emailer.abstractions.IEmailer")
+    @patch("emailer.abstractions.IBucketReader")
     def test_file_missing_email_metadata(
         self,
         aBucketReaderMock: MagicMock,

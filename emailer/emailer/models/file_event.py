@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Mapping
+from typing import Any, Mapping, Optional
 
 from mypy_extensions import TypedDict
 
@@ -25,7 +25,7 @@ FileEvent = TypedDict(
         "metageneration": str,
         "contentType": str,
         "name": str,
-        "metadata": EmailMeta,
+        "metadata": Optional[EmailMeta],
         "bucket": str,
     },
 )
