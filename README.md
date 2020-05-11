@@ -6,6 +6,8 @@ Running the scripts in `DevOps` will get your development environment setup. The
 
 After this, open the workspace in VSCode and run the install task.
 
+Also make a copy of `.env.sample` as `.env` and edit as needed.
+
 ## During Development
 All tests will appear in the test explorer on the left. <kbd>F5</kbd> starts the debugger, and will hold at any breakpoints.
 
