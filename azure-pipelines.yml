@@ -28,11 +28,14 @@ steps:
     pip install poetry
     poetry install
   displayName: 'Install dependencies'
+  workingDirectory: emailer
 
 - script: |
     poetry run task format
   displayName: 'Format'
+  workingDirectory: emailer
 
 - script: |
     poetry run task test
   displayName: 'Tests'
+  workingDirectory: emailer
