@@ -41,6 +41,6 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry run task test --ignore=tests/
+    poetry run task test --ignore=tests/ --cov-report html
   displayName: 'Unit Tests'
   workingDirectory: emailer
