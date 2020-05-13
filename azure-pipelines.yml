@@ -36,6 +36,11 @@ steps:
   workingDirectory: emailer
 
 - script: |
+    poetry run task lint
+  displayName: 'Lint'
+  workingDirectory: emailer
+
+- script: |
     poetry run task test --ignore=tests/
   displayName: 'Unit Tests'
   workingDirectory: emailer
