@@ -30,33 +30,30 @@ steps:
   displayName: 'Download key file'
 
 - script: |
-    ls -la $GOOGLE_APPLICATION_CREDENTIALS
+    python -m pip install --upgrade pip
+    pip install poetry
+    poetry install
+  displayName: 'Install dependencies'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task format --check
+  displayName: 'Format'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task lint
+  displayName: 'Lint'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task test --ignore=tests/ --cov-report html
+  displayName: 'Unit Tests'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task test --cov-report html tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
-
-# - script: |
-#     python -m pip install --upgrade pip
-#     pip install poetry
-#     poetry install
-#   displayName: 'Install dependencies'
-#   workingDirectory: emailer
-#
-# - script: |
-#     poetry run task format --check
-#   displayName: 'Format'
-#   workingDirectory: emailer
-#
-# - script: |
-#     poetry run task lint
-#   displayName: 'Lint'
-#   workingDirectory: emailer
-#
-# - script: |
-#     poetry run task test --ignore=tests/ --cov-report html
-#   displayName: 'Unit Tests'
-#   workingDirectory: emailer
-#
-# - script: |
-#     poetry run task test --cov-report html tests/test_emailer.py
-#   displayName: 'Integration Tests'
-#   workingDirectory: emailer
+  displayName: 'Integration Tests'
+  workingDirectory: emailer
