@@ -55,5 +55,6 @@ steps:
     poetry run task test --cov-report html tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+    EMAIL_SERVER: $(EmailServer)
   displayName: 'Integration Tests'
   workingDirectory: emailer
