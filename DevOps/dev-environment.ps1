@@ -23,3 +23,6 @@ code --install-extension ban.spellright
 
 ### Api testing
 code --install-extension humao.rest-client
+
+### Code coverage
+code --install-extension ryanluker.vscode-coverage-gutters

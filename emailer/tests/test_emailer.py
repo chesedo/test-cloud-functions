@@ -3,6 +3,7 @@ import random
 import string
 import time
 from imaplib import IMAP4, IMAP4_SSL
+from typing import Iterator, Optional
 
 import pytest
 from flask import Flask, request
@@ -13,17 +14,29 @@ from main import emailer
 
 # Create a fake "app" for generating test request contexts.
 @pytest.fixture(scope="module")
-def aApp():
+def aApp() -> Flask:
     return Flask(__name__)
 
 
 # Create a POP3 client
 @pytest.fixture(scope="module")
-def aImap():
-    lImap = IMAP4_SSL(os.environ.get("EMAIL_SERVER"))
-    lImap.login(
-        os.environ.get("EMAIL_USERNAME"), os.environ.get("EMAIL_PASSWORD")
-    )
+def aImap() -> Iterator[IMAP4]:
+    lServer = os.environ.get("EMAIL_SERVER")
+    lUsername = os.environ.get("EMAIL_USERNAME")
+    lPassword = os.environ.get("EMAIL_PASSWORD")
+
+    assert (
+        lServer is not None
+    ), "'EMAIL_SERVER' environment variable should be set for email test"
+    assert (
+        lUsername is not None
+    ), "'EMAIL_USERNAME' environment variable should be set for email test"
+    assert (
+        lPassword is not None
+    ), "'EMAIL_PASSWORD' environment variable should be set for email test"
+
+    lImap = IMAP4_SSL(lServer)
+    lImap.login(lUsername, lPassword)
 
     # Prepare inbox
     lImap.select("INBOX")
@@ -39,7 +52,7 @@ def aImap():
     lImap.logout()
 
 
-def clear_imap(aImap: IMAP4):
+def clear_imap(aImap: IMAP4) -> None:
     """Clear the selected IMAP folder
 
     Arguments:
@@ -68,7 +81,7 @@ def wait_for_email(aImap: IMAP4) -> str:
     lEnd = time.time() + 30
 
     while time.time() < lEnd:
-        lRecent = aImap.recent()[1][0]
+        lRecent: Optional[str] = aImap.recent()[1][0]
 
         if lRecent is not None:
             return lRecent
@@ -99,7 +112,7 @@ def get_subject(aImap: IMAP4, aId: str) -> bytes:
     return b""
 
 
-def test_full(aApp: Flask, aImap: IMAP4):
+def test_full(aApp: Flask, aImap: IMAP4) -> None:
     lSubjectExp = "".join(
         random.choice(string.ascii_letters)
         for _ in range(random.randint(5, 15))
@@ -139,7 +152,7 @@ def test_full(aApp: Flask, aImap: IMAP4):
             "updated": "2020-04-22T13:55:36.647Z",
         }
     ):
-        emailer(request.get_json(), {})  # type: ignore
+        emailer(request.get_json(), {})
 
         lRecent = wait_for_email(aImap)
 

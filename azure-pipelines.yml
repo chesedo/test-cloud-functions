@@ -23,16 +23,42 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
+- task: DownloadSecureFile@1
+  name: keyFile
+  inputs:
+    secureFile: 'eta-testing-azure.json'
+  displayName: 'Download key file'
+
 - script: |
     python -m pip install --upgrade pip
     pip install poetry
     poetry install
   displayName: 'Install dependencies'
+  workingDirectory: emailer
 
 - script: |
-    poetry run task format
+    poetry run task format --check
   displayName: 'Format'
+  workingDirectory: emailer
 
 - script: |
-    poetry run task test
-  displayName: 'Tests'
+    poetry run task lint
+  displayName: 'Lint'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task test --ignore=tests/ --cov-report html
+  displayName: 'Unit Tests'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task test --cov-report html --cov-append tests/test_emailer.py
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+    EMAIL_SERVER: $(EmailServer)
+    EMAIL_USERNAME: $(EmailUsername)
+    EMAIL_PASSWORD: $(EmailPassword)
+    EMAIL_ADDRESS: $(EmailAddress)
+    SENDGRID_API_KEY: $(SendGridKey)
+  displayName: 'Integration Tests'
+  workingDirectory: emailer
