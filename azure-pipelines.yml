@@ -56,5 +56,9 @@ steps:
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
     EMAIL_SERVER: $(EmailServer)
+    EMAIL_USERNAME: $(EmailUsername)
+    EMAIL_PASSWORD: $(EmailPassword)
+    EMAIL_ADDRESS: $(EmailAddress)
+    SENDGRID_API_KEY: $(SendGridKey)
   displayName: 'Integration Tests'
   workingDirectory: emailer
