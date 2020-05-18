@@ -44,3 +44,8 @@ steps:
     poetry run task test --ignore=tests/ --cov-report html
   displayName: 'Unit Tests'
   workingDirectory: emailer
+
+- script: |
+    poetry run task test --cov-report html tests/test_emailer.py
+  displayName: 'Integration Tests'
+  workingDirectory: emailer
