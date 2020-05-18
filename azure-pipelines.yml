@@ -23,7 +23,7 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
-- script: echo $GOOGLE_APPLICATION_CREDENTIALS
+- script: cat $GOOGLE_APPLICATION_CREDENTIALS
 
 # - script: |
 #     python -m pip install --upgrade pip
