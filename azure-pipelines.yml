@@ -27,6 +27,7 @@ steps:
   name: keyFile
   inputs:
     secureFile: 'eta-testing-azure.json'
+  displayName: 'Download key file'
 
 - script: |
     ls -la $GOOGLE_APPLICATION_CREDENTIALS
