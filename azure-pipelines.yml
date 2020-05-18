@@ -23,6 +23,10 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'eta-testing-azure.json'
+
 - script: cat $GOOGLE_APPLICATION_CREDENTIALS
 
 # - script: |
