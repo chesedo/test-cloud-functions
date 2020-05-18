@@ -52,7 +52,7 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry run task test --cov-report html tests/test_emailer.py
+    echo $EMAIL_SERVER
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
     EMAIL_SERVER: $(EmailServer)
