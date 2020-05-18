@@ -28,7 +28,7 @@ steps:
   inputs:
     secureFile: 'eta-testing-azure.json'
 
-- script: ll $(keyFile.secureFilePath)
+- script: ls -la $(keyFile.secureFilePath)
 
 # - script: |
 #     python -m pip install --upgrade pip
