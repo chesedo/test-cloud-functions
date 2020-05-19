@@ -1,115 +1,14 @@
 import os
 import random
 import string
-import time
-from imaplib import IMAP4, IMAP4_SSL
-from typing import Iterator, Optional
+from imaplib import IMAP4
 
-import pytest
 from flask import Flask, request
 
 from emailer import __version__
 from main import emailer
 
-
-# Create a fake "app" for generating test request contexts.
-@pytest.fixture(scope="module")
-def aApp() -> Flask:
-    return Flask(__name__)
-
-
-# Create a POP3 client
-@pytest.fixture(scope="module")
-def aImap() -> Iterator[IMAP4]:
-    lServer = os.environ.get("EMAIL_SERVER")
-    lUsername = os.environ.get("EMAIL_USERNAME")
-    lPassword = os.environ.get("EMAIL_PASSWORD")
-
-    assert (
-        lServer is not None
-    ), "'EMAIL_SERVER' environment variable should be set for email test"
-    assert (
-        lUsername is not None
-    ), "'EMAIL_USERNAME' environment variable should be set for email test"
-    assert (
-        lPassword is not None
-    ), "'EMAIL_PASSWORD' environment variable should be set for email test"
-
-    lImap = IMAP4_SSL(lServer)
-    lImap.login(lUsername, lPassword)
-
-    # Prepare inbox
-    lImap.select("INBOX")
-    clear_imap(lImap)
-
-    # Capture current updates
-    lImap.recent()
-
-    yield lImap
-
-    clear_imap(lImap)
-    lImap.close()
-    lImap.logout()
-
-
-def clear_imap(aImap: IMAP4) -> None:
-    """Clear the selected IMAP folder
-
-    Arguments:
-        aImap {IMAP4} -- IMAP with selected folder to clear
-    """
-    _, lMsgNums = aImap.search(None, "ALL")
-
-    for lMsgNum in lMsgNums[0].split():
-        aImap.store(lMsgNum, "+FLAGS", "\\Deleted")
-
-    aImap.expunge()
-
-
-def wait_for_email(aImap: IMAP4) -> str:
-    """Wait for new email to arrive on IMAP connection
-
-    Arguments:
-        aImap {IMAP4} -- The IMAP connection to wait on
-
-    Returns:
-        str -- ID of the new email
-    """
-    __tracebackhide__ = True
-
-    # Set 30 seconds timeout
-    lEnd = time.time() + 30
-
-    while time.time() < lEnd:
-        lRecent: Optional[str] = aImap.recent()[1][0]
-
-        if lRecent is not None:
-            return lRecent
-
-    pytest.fail("Timed out waiting for email")
-    return ""
-
-
-def get_subject(aImap: IMAP4, aId: str) -> bytes:
-    """Get the subject of a specific message id
-
-    Arguments:
-        aImap {IMAP4} -- The IMAP connection to use
-        aId {str} -- Id of message whose subject will be fetched
-
-    Returns:
-        bytes -- The message's subject
-    """
-    __tracebackhide__ = True
-
-    lType, lSubject = aImap.fetch(aId, "(body[header.fields (subject)])")
-    assert lType == "OK"
-
-    if isinstance(lSubject[0], tuple):
-        return lSubject[0][1].strip()
-
-    pytest.fail("Failed to get email subject")
-    return b""
+from .utils import get_subject, wait_for_email
 
 
 def test_full(aApp: Flask, aImap: IMAP4) -> None:
