@@ -10,15 +10,13 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python27:
-      python.version: '2.7'
-      python.runtime: 'python27'
     Python37:
       python.version: '3.7'
       python.runtime: 'python37'
-    Python38:
-      python.version: '3.8'
-      python.runtime: 'python38'
+    # Enable once out of beta
+    # Python38:
+    #   python.version: '3.8'
+    #   python.runtime: 'python38'
 
 steps:
 - task: UsePythonVersion@0
@@ -69,7 +67,7 @@ steps:
 - script: |
     poetry export -f requirements.txt --without-hashes -o requirements.txt
     gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
-    poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --allow-unauthenticated
+    poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --quiet
   env:
     TEST_PROJECT: $(TestProject)
     SENDGRID_API_KEY: $(SendGridKey)
@@ -88,7 +86,7 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry run task deploy_clean --project $TEST_PROJECT
+    poetry run task deploy_clean --project $TEST_PROJECT  --quiet
   env:
     TEST_PROJECT: $(TestProject)
   displayName: 'Deploy Tests (Cleanup)'
