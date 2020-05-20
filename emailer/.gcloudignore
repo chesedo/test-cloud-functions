@@ -1,2 +1,6 @@
 tests/
 *_test.py
+
+mypy.ini
+tox.ini
+poetry.lock

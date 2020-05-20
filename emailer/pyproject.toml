@@ -31,6 +31,9 @@ lint_mypy = "mypy ."
 format = "black ."
 devel = "task start --debug"
 start = "functions-framework --target emailer --signature-type event"
+deploy = "gcloud functions deploy emailer-test --trigger-resource eta-testing-bucket --trigger-event google.storage.object.finalize --memory 128MB --set-env-vars SENDGRID_API_KEY=$SENDGRID_API_KEY --max-instances 1 --region europe-west1 --entry-point emailer"
+deploy_py37 = "task deploy --runtime python37"
+deploy_clean = "gcloud functions delete emailer-test --region europe-west1"
 
 [build-system]
 requires = ["poetry>=0.12"]
