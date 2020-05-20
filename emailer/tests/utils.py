@@ -1,8 +1,11 @@
+import random
+import string
 import time
 from imaplib import IMAP4
 from typing import Optional
 
 import pytest
+from google.cloud.storage.bucket import Bucket
 
 
 def clear_imap(aImap: IMAP4) -> None:
@@ -63,6 +66,16 @@ def get_subject(aImap: IMAP4, aId: str) -> bytes:
 
     pytest.fail("Failed to get email subject")
     return b""
+
+
+def clear_bucket(aBucket: Bucket) -> None:
+    """Clear the bucket from all testing files
+
+    Arguments:
+        aBucket {Bucket} -- The bucket to clear
+    """
+    for lBlob in aBucket.list_blobs(prefix="Pipeline/"):
+        lBlob.delete()
 
 
 class Random:

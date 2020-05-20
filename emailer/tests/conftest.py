@@ -7,8 +7,10 @@ from typing import Iterator
 
 import pytest
 from flask import Flask
+from google.cloud import storage
+from google.cloud.storage.bucket import Bucket
 
-from .utils import clear_imap
+from .utils import clear_bucket, clear_imap
 
 
 # Create a fake "app" for generating test request contexts.
@@ -49,3 +51,14 @@ def aImap() -> Iterator[IMAP4]:
     clear_imap(lImap)
     lImap.close()
     lImap.logout()
+
+
+# Create a bucket to test against
+@pytest.fixture(scope="module")
+def aBucket() -> Iterator[Bucket]:
+    lBucket = storage.Client().bucket("eta-testing-bucket")
+    clear_bucket(lBucket)
+
+    yield lBucket
+
+    clear_bucket(lBucket)
