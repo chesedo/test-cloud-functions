@@ -63,3 +63,23 @@ def get_subject(aImap: IMAP4, aId: str) -> bytes:
 
     pytest.fail("Failed to get email subject")
     return b""
+
+
+class Random:
+    @staticmethod
+    def string(aMax: int, aMin: int = 0) -> str:
+        """Generate a random string in a length range
+
+        Arguments:
+            aMax {int} -- Max length
+
+        Keyword Arguments:
+            aMin {int} -- Minimum length (default: {0})
+
+        Returns:
+            str -- The randomly created string
+        """
+        return "".join(
+            random.choice(string.ascii_letters)
+            for _ in range(random.randint(aMin, aMax))
+        )

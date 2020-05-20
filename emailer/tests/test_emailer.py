@@ -1,6 +1,4 @@
 import os
-import random
-import string
 from imaplib import IMAP4
 
 from flask import Flask, request
@@ -8,14 +6,11 @@ from flask import Flask, request
 from emailer import __version__
 from main import emailer
 
-from .utils import get_subject, wait_for_email
+from .utils import Random, get_subject, wait_for_email
 
 
 def test_full(aApp: Flask, aImap: IMAP4) -> None:
-    lSubjectExp = "".join(
-        random.choice(string.ascii_letters)
-        for _ in range(random.randint(5, 15))
-    )
+    lSubjectExp = Random.string(aMin=5, aMax=15)
 
     with aApp.test_request_context(
         json={
