@@ -131,3 +131,6 @@ dmypy.json
 
 # Dev files
 account.json
+
+# Deploy
+requirements.txt

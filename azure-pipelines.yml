@@ -68,9 +68,10 @@ steps:
 
 - script: |
     poetry export -f requirements.txt --without-hashes -o requirements.txt
-    poetry run task deploy --runtime $(python.runtime)
+    gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
+    poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --allow-unauthenticated
   env:
-    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+    TEST_PROJECT: $(TestProject)
     SENDGRID_API_KEY: $(SendGridKey)
   displayName: 'Deploy Tests'
   workingDirectory: emailer
@@ -87,6 +88,8 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry run task deploy_clean
+    poetry run task deploy_clean --project $TEST_PROJECT
+  env:
+    TEST_PROJECT: $(TestProject)
   displayName: 'Deploy Tests (Cleanup)'
   workingDirectory: emailer
