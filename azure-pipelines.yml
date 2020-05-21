@@ -75,7 +75,7 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry run task test tests/test_events.py
+    poetry run task test --no-cov tests/test_events.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
     EMAIL_SERVER: $(EmailServer)
