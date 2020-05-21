@@ -33,10 +33,7 @@ class TestEvents:
 
         lRecent = wait_for_email(aImap)
 
-        assert (
-            get_subject(aImap, lRecent)
-            == f"Subject: {self.ExpectedSubject}".encode()
-        )
+        assert get_subject(aImap, lRecent) == self.ExpectedSubject
 
     def test_rename(self, aImap: IMAP4, aBucket: Bucket) -> None:
         """Renaming a file should cause an email to be send
@@ -47,7 +44,4 @@ class TestEvents:
 
         lRecent = wait_for_email(aImap)
 
-        assert (
-            get_subject(aImap, lRecent)
-            == f"Subject: {self.ExpectedSubject}".encode()
-        )
+        assert get_subject(aImap, lRecent) == self.ExpectedSubject

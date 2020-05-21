@@ -50,9 +50,7 @@ def test_full(aApp: Flask, aImap: IMAP4) -> None:
 
         lRecent = wait_for_email(aImap)
 
-        assert (
-            get_subject(aImap, lRecent) == f"Subject: {lSubjectExp}".encode()
-        )
+        assert get_subject(aImap, lRecent) == lSubjectExp
 
 
 def test_version() -> None:

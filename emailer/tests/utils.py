@@ -46,7 +46,7 @@ def wait_for_email(aImap: IMAP4) -> str:
     return ""
 
 
-def get_subject(aImap: IMAP4, aId: str) -> bytes:
+def get_subject(aImap: IMAP4, aId: str) -> str:
     """Get the subject of a specific message id
 
     Arguments:
@@ -54,7 +54,7 @@ def get_subject(aImap: IMAP4, aId: str) -> bytes:
         aId {str} -- Id of message whose subject will be fetched
 
     Returns:
-        bytes -- The message's subject
+        str -- The message's subject
     """
     __tracebackhide__ = True
 
@@ -62,10 +62,10 @@ def get_subject(aImap: IMAP4, aId: str) -> bytes:
     assert lType == "OK"
 
     if isinstance(lSubject[0], tuple):
-        return lSubject[0][1].strip()
+        return lSubject[0][1].lstrip(b"Subject: ").rstrip().decode()
 
     pytest.fail("Failed to get email subject")
-    return b""
+    return ""
 
 
 def clear_bucket(aBucket: Bucket) -> None:
