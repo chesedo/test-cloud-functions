@@ -1,2 +1,16 @@
 tests/
 *_test.py
+*.rest
+
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.mypy_cache/
+htmlcov/
+coverage.xml
+test-output.xml
+
+.vscode/
+mypy.ini
+tox.ini
+poetry.lock

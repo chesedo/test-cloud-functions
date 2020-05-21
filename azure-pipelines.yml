@@ -10,12 +10,13 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python27:
-      python.version: '2.7'
     Python37:
       python.version: '3.7'
-    Python38:
-      python.version: '3.8'
+      python.runtime: 'python37'
+    # Enable once out of beta
+    # Python38:
+    #   python.version: '3.8'
+    #   python.runtime: 'python38'
 
 steps:
 - task: UsePythonVersion@0
@@ -62,3 +63,31 @@ steps:
     SENDGRID_API_KEY: $(SendGridKey)
   displayName: 'Integration Tests'
   workingDirectory: emailer
+
+- script: |
+    gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
+    poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --quiet
+  env:
+    TEST_PROJECT: $(TestProject)
+    SENDGRID_API_KEY: $(SendGridKey)
+  displayName: 'Deploy Tests'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task test --no-cov tests/test_events.py
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+    EMAIL_SERVER: $(EmailServer)
+    EMAIL_USERNAME: $(EmailUsername)
+    EMAIL_PASSWORD: $(EmailPassword)
+    EMAIL_ADDRESS: $(EmailAddress)
+  displayName: 'Events Tests'
+  workingDirectory: emailer
+
+- script: |
+    poetry run task deploy_clean --project $TEST_PROJECT  --quiet
+  env:
+    TEST_PROJECT: $(TestProject)
+  displayName: 'Deploy Tests (Cleanup)'
+  workingDirectory: emailer
+  condition: succeededOrFailed()
