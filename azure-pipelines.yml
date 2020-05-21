@@ -65,7 +65,6 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry export -f requirements.txt --without-hashes -o requirements.txt
     gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
     poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --quiet
   env:
