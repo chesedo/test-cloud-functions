@@ -90,3 +90,4 @@ steps:
     TEST_PROJECT: $(TestProject)
   displayName: 'Deploy Tests (Cleanup)'
   workingDirectory: emailer
+  condition: succeededOrFailed()
