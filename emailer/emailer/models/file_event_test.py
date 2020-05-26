@@ -16,9 +16,7 @@ class TestIsEmailMeta:
         del lTmp["to"]
         assert IsEmailMeta(lTmp) is False
 
-        aLoggingMock.info.assert_called_with(
-            "Missing 'to' field to be considered for emailing"
-        )
+        aLoggingMock.info.assert_called_with("Missing 'to' field to be considered for emailing")
 
     @patch("emailer.models.file_event.logging")
     def test_missing_text_field(self, aLoggingMock: MagicMock) -> None:
@@ -30,9 +28,7 @@ class TestIsEmailMeta:
         del lTmp["text"]
         assert IsEmailMeta(lTmp) is False
 
-        aLoggingMock.info.assert_called_with(
-            "Missing 'text' field to be considered for emailing"
-        )
+        aLoggingMock.info.assert_called_with("Missing 'text' field to be considered for emailing")
 
     @patch("emailer.models.file_event.logging")
     def test_missing_html_field(self, aLoggingMock: MagicMock) -> None:
@@ -44,9 +40,7 @@ class TestIsEmailMeta:
         del lTmp["html"]
         assert IsEmailMeta(lTmp) is False
 
-        aLoggingMock.info.assert_called_with(
-            "Missing 'html' field to be considered for emailing"
-        )
+        aLoggingMock.info.assert_called_with("Missing 'html' field to be considered for emailing")
 
     @patch("emailer.models.file_event.logging")
     def test_no_missing_fields(self, aLoggingMock: MagicMock) -> None:

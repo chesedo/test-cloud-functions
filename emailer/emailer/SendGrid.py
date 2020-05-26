@@ -13,9 +13,7 @@ class SendGrid(IEmailer):
 
         This will try to read the `SENDGRID_API_KEY` environment varaible
         """
-        self.client = SendGridAPIClient(
-            api_key=os.environ.get("SENDGRID_API_KEY")
-        )
+        self.client = SendGridAPIClient(api_key=os.environ.get("SENDGRID_API_KEY"))
 
     def send(self, aEmail: Email) -> bool:
         """Send out the given email
@@ -28,4 +26,4 @@ class SendGrid(IEmailer):
         """
         lResult = self.client.send(aEmail.to_sendgrid_email())
 
-        return cast(int, lResult.status_code) == 200
+        return cast(int, lResult.status_code) == 202

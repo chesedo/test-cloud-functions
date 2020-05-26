@@ -27,9 +27,7 @@ class TestEvents:
             "html": "Html text",
         }
 
-        lBlob.upload_from_filename(
-            Path(__file__).resolve().parent.joinpath("resources", "Report.pdf")
-        )
+        lBlob.upload_from_filename(Path(__file__).resolve().parent.joinpath("resources", "Report.pdf"))
 
         lRecent = wait_for_email(aImap)
 

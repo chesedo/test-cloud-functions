@@ -34,8 +34,7 @@ def test_full(aApp: Flask, aImap: IMAP4) -> None:
                 "subject": lSubjectExp,
             },
             "metageneration": "1",
-            "name": "Emails/Tshepong Operations Monthly engineering review "
-            + "data_2020-04-21.pdf",
+            "name": "Emails/Tshepong Operations Monthly engineering review data_2020-04-21.pdf",
             "selfLink": "https://www.googleapis.com/storage/v1/b/eta-testing-"
             + "bucket/o/Emails%2FTshepong%20Operations%20Monthly%20engineering"
             + "%20review%20data_2020-04-21.pdf",
