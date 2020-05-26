@@ -1,7 +1,7 @@
 # Development commands
 alias test="pytest --doctest-modules --doctest-continue-on-failure --ignore=main.py --cov $FUNCTION"
-alias lint_flake8="flake8 --max-line-length 119 --max-complexity 10 --doctests"
-alias lint_mypy="mypy --strict --warn-unreachable --pretty --show-error-codes ."
+alias lint_flake8="flake8"
+alias lint_mypy="mypy ."
 alias lint="lint_flake8 && lint_mypy"
 alias format="black --line-length 119 ."
 

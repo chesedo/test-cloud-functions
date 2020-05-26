@@ -20,19 +20,8 @@
         "python.linting.pylintEnabled": false,
 
         "python.linting.mypyEnabled": true,
-        "python.linting.mypyArgs": [
-            "--strict",
-            "--warn-unreachable",
-            "--pretty",
-            "--show-error-codes"
-        ],
 
         "python.linting.flake8Enabled": true,
-        "python.linting.flake8Args": [
-            "--max-line-length 119",
-            "--max-complexity 10",
-            "--doctests"
-        ],
 
         "python.formatting.provider": "black",
         "python.formatting.blackArgs": [
@@ -70,6 +59,13 @@
         "ryanluker.vscode-coverage-gutters",
         "usernamehw.errorlens"
     ],
+
+    // Tmp
+    "mounts": [
+        "source=tmp-extensions,target=/root/.vscode-server/extensions,type=volume",
+        // And/or for VS Code Insiders
+        "source=tmp-insider-extensions,target=/root/.vscode-server-insiders/extensions,type=volume",
+    ]
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
