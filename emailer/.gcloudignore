@@ -12,5 +12,3 @@ test-output.xml
 
 .vscode/
 mypy.ini
-tox.ini
-poetry.lock
