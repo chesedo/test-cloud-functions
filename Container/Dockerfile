@@ -21,6 +21,8 @@ COPY Container/aliases.sh /tmp/
 RUN cat /tmp/aliases.sh >> ~/.bashrc \
    && rm -f /tmp/aliases.sh
 
+COPY Container/commands/* /usr/bin/
+
 COPY Container/flake8.ini /root/.config/flake8
 COPY Container/mypy.ini /root/.config/mypy/config
 

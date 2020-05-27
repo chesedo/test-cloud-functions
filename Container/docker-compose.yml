@@ -9,6 +9,7 @@ services:
                 VARIANT: 3.7
 
         command: sleep infinity
+        working_dir: /workspace
 
         volumes:
             - ../../:/workspace:cached
