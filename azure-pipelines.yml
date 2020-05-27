@@ -20,6 +20,7 @@ strategy:
 
 variables:
   dc: 'docker-compose -f .devcontainer/docker-compose.yml -f ../Container/docker-compose.yml -f ../Container/docker-compose.linux.yml'
+  dcr: '$(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug'
 
 steps:
 - task: UsePythonVersion@0
@@ -41,14 +42,14 @@ steps:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
 
 - script: |
-    $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug format --check
+    $(dcr) format --check
   displayName: 'Format'
   workingDirectory: emailer
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
 
 - script: |
-    $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug lint
+    $(dcr) lint
   displayName: 'Lint'
   workingDirectory: emailer
   env:
@@ -56,7 +57,7 @@ steps:
 
 
 - script: |
-    $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug test --ignore=tests/ --cov-report html
+    $(dcr) test --ignore=tests/ --cov-report html
   displayName: 'Unit Tests'
   workingDirectory: emailer
   env:
@@ -64,7 +65,7 @@ steps:
 
 
 - script: |
-    $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug test --cov-report html --cov-append tests/test_emailer.py
+    $(dcr) test --cov-report html --cov-append tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
     EMAIL_SERVER: $(EmailServer)
@@ -86,7 +87,7 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug test --no-cov tests/test_events.py
+    $(dcr) test --no-cov tests/test_events.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
     EMAIL_SERVER: $(EmailServer)
