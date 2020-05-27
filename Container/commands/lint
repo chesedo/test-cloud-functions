@@ -1,4 +1,4 @@
 
 #!/bin/bash
 
-lint_flake8 && lint_mypy $@
+lint_flake8 && lint_mypy
