@@ -13,7 +13,6 @@ services:
 
         volumes:
             - ../../:/workspace:cached
-            - C:\_dev\credentials\gcp\dev-user.json:/_dev/credentials/gcp/dev-user.json:cached
             # Store extensions for quicker rebuilding. Just delete the volumes if they need to be cleaned
             - extensions:/root/.vscode-server/extensions
             - insiders-extensions:/root/.vscode-server-insiders/extensions
