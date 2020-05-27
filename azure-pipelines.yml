@@ -77,8 +77,9 @@ steps:
 
 - script: |
     gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
-    poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --quiet
+    gcloud functions deploy $FUNCTION-test --trigger-resource eta-testing-bucket --trigger-event google.storage.object.finalize --memory 128MB --set-env-vars SENDGRID_API_KEY=$SENDGRID_API_KEY --max-instances 1 --region europe-west1 --entry-point $FUNCTION --runtime $(python.runtime) --project $TEST_PROJECT --quiet
   env:
+    FUNCTION: emailer
     TEST_PROJECT: $(TestProject)
     SENDGRID_API_KEY: $(SendGridKey)
   displayName: 'Deploy Tests'
@@ -96,8 +97,9 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    poetry run task deploy_clean --project $TEST_PROJECT  --quiet
+    gcloud functions delete $FUNCTION-test --region europe-west1 --project $TEST_PROJECT  --quiet
   env:
+    FUNCTION: emailer
     TEST_PROJECT: $(TestProject)
   displayName: 'Deploy Tests (Cleanup)'
   workingDirectory: emailer
