@@ -67,17 +67,11 @@ steps:
 
 
 - script: |
-    $(dcir) test --cov-report xml --cov-append --no-coverage-upload tests/test_emailer.py
+    $(dcir) test --cov-report xml --cov-append tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
   displayName: 'Integration Tests'
   workingDirectory: emailer
-
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage results'
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: 'emailer/coverage.xml'
 
 - script: |
     gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
