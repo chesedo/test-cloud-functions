@@ -26,10 +26,7 @@ class TestSendEmail:
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
     def test_file_was_not_created(
-        self,
-        aBucketReaderMock: MagicMock,
-        aEmailerMock: MagicMock,
-        aLoggingMock: MagicMock,
+        self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
         self.Email["metageneration"] = "0"
 
@@ -37,19 +34,14 @@ class TestSendEmail:
             self.Email, aEmailerMock, aBucketReaderMock,
         )
 
-        aLoggingMock.info.assert_called_with(
-            "FileName.txt was not created. Will skip it."
-        )
+        aLoggingMock.info.assert_called_with("FileName.txt was not created. Will skip it.")
         aLoggingMock.info.called_times(1)
 
     @patch("emailer.SendEmail.logging")
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
     def test_file_missing_metadata(
-        self,
-        aBucketReaderMock: MagicMock,
-        aEmailerMock: MagicMock,
-        aLoggingMock: MagicMock,
+        self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
         del self.Email["metadata"]  # type: ignore
 
@@ -57,19 +49,14 @@ class TestSendEmail:
             self.Email, aEmailerMock, aBucketReaderMock,
         )
 
-        aLoggingMock.info.assert_called_with(
-            "FileName.txt does not contain any metadata. It will be skipped."
-        )
+        aLoggingMock.info.assert_called_with("FileName.txt does not contain any metadata. It will be skipped.")
         aLoggingMock.info.called_times(1)
 
     @patch("emailer.SendEmail.logging")
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
     def test_file_missing_email_metadata(
-        self,
-        aBucketReaderMock: MagicMock,
-        aEmailerMock: MagicMock,
-        aLoggingMock: MagicMock,
+        self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
         del self.Email["metadata"]["to"]  # type: ignore
 
@@ -78,8 +65,7 @@ class TestSendEmail:
         )
 
         aLoggingMock.info.assert_called_with(
-            "FileName.txt does not contain the full email fields needed for"
-            + " emailing. It will be skipped."
+            "FileName.txt does not contain the full email fields needed for emailing. It will be skipped."
         )
         aLoggingMock.info.called_times(1)
 
@@ -87,10 +73,7 @@ class TestSendEmail:
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
     def test_failed_to_fetch_file(
-        self,
-        aBucketReaderMock: MagicMock,
-        aEmailerMock: MagicMock,
-        aLoggingMock: MagicMock,
+        self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
         aBucketReaderMock.get_content.return_value = b""
 
@@ -98,32 +81,23 @@ class TestSendEmail:
             self.Email, aEmailerMock, aBucketReaderMock,
         )
 
-        aBucketReaderMock.get_content.assert_called_with(
-            "stub", "FileName.txt"
-        )
+        aBucketReaderMock.get_content.assert_called_with("stub", "FileName.txt")
 
-        aLoggingMock.info.assert_called_with(
-            "FileName.txt failed to download."
-        )
+        aLoggingMock.info.assert_called_with("FileName.txt failed to download.")
         aLoggingMock.info.called_times(1)
 
     @patch("emailer.SendEmail.logging")
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
     def test_sending_fails(
-        self,
-        aBucketReaderMock: MagicMock,
-        aEmailerMock: MagicMock,
-        aLoggingMock: MagicMock,
+        self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
         aBucketReaderMock.get_content.return_value = b"Some text"
         aEmailerMock.send.return_value = False
 
         SendEmail(self.Email, aEmailerMock, aBucketReaderMock)
 
-        aBucketReaderMock.get_content.assert_called_with(
-            "stub", "FileName.txt"
-        )
+        aBucketReaderMock.get_content.assert_called_with("stub", "FileName.txt")
         aEmailerMock.send.assert_called_with(
             Email(
                 subject="Subject",
@@ -132,11 +106,7 @@ class TestSendEmail:
                 to=["john@doe.com"],
                 from_email="from@domain.com",
                 categories=["cat1", "emailer", "0.1.0"],
-                attachment=Attachment(
-                    content=b"Some text",
-                    mime_type="fake/text",
-                    name="FileName.txt",
-                ),
+                attachment=Attachment(content=b"Some text", mime_type="fake/text", name="FileName.txt",),
             )
         )
 
@@ -146,19 +116,14 @@ class TestSendEmail:
     @patch("emailer.abstractions.IEmailer")
     @patch("emailer.abstractions.IBucketReader")
     def test_sending_succeeds(
-        self,
-        aBucketReaderMock: MagicMock,
-        aEmailerMock: MagicMock,
-        aLoggingMock: MagicMock,
+        self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
         aBucketReaderMock.get_content.return_value = b"Some text"
         aEmailerMock.send.return_value = True
 
         SendEmail(self.Email, aEmailerMock, aBucketReaderMock)
 
-        aBucketReaderMock.get_content.assert_called_with(
-            "stub", "FileName.txt"
-        )
+        aBucketReaderMock.get_content.assert_called_with("stub", "FileName.txt")
         aEmailerMock.send.assert_called_with(
             Email(
                 subject="Subject",
@@ -167,11 +132,7 @@ class TestSendEmail:
                 to=["john@doe.com"],
                 from_email="from@domain.com",
                 categories=["cat1", "emailer", "0.1.0"],
-                attachment=Attachment(
-                    content=b"Some text",
-                    mime_type="fake/text",
-                    name="FileName.txt",
-                ),
+                attachment=Attachment(content=b"Some text", mime_type="fake/text", name="FileName.txt",),
             )
         )
 

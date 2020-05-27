@@ -1,0 +1,8 @@
+version: '3.4'
+services:
+    gcf-debug:
+        build:
+            args:
+                FUNCTION: _template
+
+        working_dir: /workspace/_template

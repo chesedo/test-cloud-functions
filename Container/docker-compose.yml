@@ -1,0 +1,22 @@
+version: '3.4'
+services:
+    gcf-debug:
+        build:
+            context: ../../
+            dockerfile: Container/Dockerfile
+            target: debug
+            args:
+                VARIANT: 3.7
+
+        command: sleep infinity
+        working_dir: /workspace
+
+        volumes:
+            - ../../:/workspace:cached
+            # Store extensions for quicker rebuilding. Just delete the volumes if they need to be cleaned
+            - extensions:/root/.vscode-server/extensions
+            - insiders-extensions:/root/.vscode-server-insiders/extensions
+
+volumes:
+    extensions:
+    insiders-extensions:

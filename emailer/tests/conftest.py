@@ -26,15 +26,9 @@ def aImap() -> Iterator[IMAP4]:
     lUsername = os.environ.get("EMAIL_USERNAME")
     lPassword = os.environ.get("EMAIL_PASSWORD")
 
-    assert (
-        lServer is not None
-    ), "'EMAIL_SERVER' environment variable should be set for email test"
-    assert (
-        lUsername is not None
-    ), "'EMAIL_USERNAME' environment variable should be set for email test"
-    assert (
-        lPassword is not None
-    ), "'EMAIL_PASSWORD' environment variable should be set for email test"
+    assert lServer is not None, "'EMAIL_SERVER' environment variable should be set for email test"
+    assert lUsername is not None, "'EMAIL_USERNAME' environment variable should be set for email test"
+    assert lPassword is not None, "'EMAIL_PASSWORD' environment variable should be set for email test"
 
     lImap = IMAP4_SSL(lServer)
     lImap.login(lUsername, lPassword)

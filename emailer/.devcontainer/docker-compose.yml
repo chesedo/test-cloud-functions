@@ -1,0 +1,8 @@
+version: '3.4'
+services:
+    gcf-debug:
+        build:
+            args:
+                FUNCTION: emailer
+
+        working_dir: /workspace/emailer

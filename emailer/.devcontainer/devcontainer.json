@@ -1,0 +1,66 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+{
+    "name": "Python 3 - emailer",
+
+    "dockerComposeFile": [
+        "docker-compose.yml",
+        "../../Container/docker-compose.yml",
+        "../../Container/docker-compose.windows.yml",
+    ],
+
+    "service": "gcf-debug",
+	"workspaceFolder": "/workspace/emailer",
+
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+
+        "python.linting.mypyEnabled": true,
+
+        "python.linting.flake8Enabled": true,
+
+        "python.formatting.provider": "black",
+        "python.formatting.blackArgs": [
+            "--line-length 119"
+        ],
+
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+            "--doctest-modules",
+            "--doctest-continue-on-failure",
+            "--ignore=main.py",
+        ],
+
+        "python.testing.unittestEnabled": false,
+        "python.testing.nosetestsEnabled": false,
+
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+            "source.fixAll": true
+        },
+
+        "coverage-gutters.showGutterCoverage": false,
+        "coverage-gutters.showLineCoverage": true
+    },
+
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "ms-python.python",
+        "njpwerner.autodocstring",
+        "twixes.pypi-assistant",
+        "humao.rest-client",
+        "ban.spellright",
+        "ryanluker.vscode-coverage-gutters",
+        "usernamehw.errorlens"
+    ],
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // "postCreateCommand": "pip3 install --user -r requirements.txt"
+
+    // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+    // "remoteUser": "vscode"
+}

@@ -1,0 +1,4 @@
+
+#!/bin/bash
+
+functions-framework --target $FUNCTION --signature-type event $@

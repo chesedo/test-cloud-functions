@@ -1,0 +1,4 @@
+# Set of minimal requirements needed for GCF
+
+# Should be in the following format
+# pypip.lib==1.0.0

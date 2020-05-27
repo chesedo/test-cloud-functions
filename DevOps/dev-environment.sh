@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Install Python 3.7
-apt install -y python3.7 python3.7-distutils python3.7-venv
+# Install VSCode
+snap install code
 
-# Install Poetry
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+# Install VSCode extension for remote container development
+code --install-extension ms-vscode-remote.remote-containers

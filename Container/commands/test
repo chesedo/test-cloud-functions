@@ -1,0 +1,4 @@
+
+#!/bin/bash
+
+pytest --doctest-modules --doctest-continue-on-failure --ignore=main.py --cov $FUNCTION $@

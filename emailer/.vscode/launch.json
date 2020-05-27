@@ -5,22 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Emailer",
+            "name": "Python: Functions Framework",
             "type": "python",
             "request": "launch",
             "module": "functions_framework",
             "args": [
                 "--source",
-                "emailer/main.py",
+                "main.py",
                 "--target",
-                "emailer",
+                "$FUNCTION",
                 "--signature-type",
                 "event",
                 "--debug"
-            ],
-            "env": {
-                "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/account.json"
-            }
+            ]
         }
     ]
 }

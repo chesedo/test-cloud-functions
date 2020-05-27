@@ -92,7 +92,4 @@ class Random:
         Returns:
             str -- The randomly created string
         """
-        return "".join(
-            random.choice(string.ascii_letters)
-            for _ in range(random.randint(aMin, aMax))
-        )
+        return "".join(random.choice(string.ascii_letters) for _ in range(random.randint(aMin, aMax)))

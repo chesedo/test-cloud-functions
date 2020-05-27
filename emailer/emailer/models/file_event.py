@@ -6,28 +6,14 @@ from mypy_extensions import TypedDict
 """Expected metadata for file to be emailed
 """
 EmailMeta = TypedDict(
-    "EmailMeta",
-    {
-        "from": str,
-        "to": str,
-        "subject": str,
-        "text": str,
-        "html": str,
-        "categories": str,
-    },
+    "EmailMeta", {"from": str, "to": str, "subject": str, "text": str, "html": str, "categories": str},
 )
 
 """Expected dictionary for storage event
 """
 FileEvent = TypedDict(
     "FileEvent",
-    {
-        "metageneration": str,
-        "contentType": str,
-        "name": str,
-        "metadata": Optional[EmailMeta],
-        "bucket": str,
-    },
+    {"metageneration": str, "contentType": str, "name": str, "metadata": Optional[EmailMeta], "bucket": str},
 )
 
 

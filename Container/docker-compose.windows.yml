@@ -1,0 +1,5 @@
+version: '3.4'
+services:
+    gcf-debug:
+        volumes:
+            - C:\_dev\credentials\gcp\dev-user.json:/_dev/credentials/gcp/dev-user.json:cached

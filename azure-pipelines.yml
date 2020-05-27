@@ -18,6 +18,11 @@ strategy:
     #   python.version: '3.8'
     #   python.runtime: 'python38'
 
+variables:
+  dc: 'docker-compose -f .devcontainer/docker-compose.yml -f ../Container/docker-compose.yml -f ../Container/docker-compose.linux.yml'
+  dcr: '$(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug'
+  dcir: '$(dc) run -w /workspace/emailer --entrypoint /bin/bash -e EMAIL_SERVER=$(EmailServer) -e EMAIL_USERNAME=$(EmailUsername) -e EMAIL_PASSWORD=$(EmailPassword) -e EMAIL_ADDRESS=$(EmailAddress) -e SENDGRID_API_KEY=$(SendGridKey) gcf-debug'
+
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -31,62 +36,64 @@ steps:
   displayName: 'Download key file'
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install poetry
-    poetry install
-  displayName: 'Install dependencies'
+    $(dc) build
+  displayName: 'Build Container'
   workingDirectory: emailer
-
-- script: |
-    poetry run task format --check
-  displayName: 'Format'
-  workingDirectory: emailer
-
-- script: |
-    poetry run task lint
-  displayName: 'Lint'
-  workingDirectory: emailer
-
-- script: |
-    poetry run task test --ignore=tests/ --cov-report html
-  displayName: 'Unit Tests'
-  workingDirectory: emailer
-
-- script: |
-    poetry run task test --cov-report html --cov-append tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
-    EMAIL_SERVER: $(EmailServer)
-    EMAIL_USERNAME: $(EmailUsername)
-    EMAIL_PASSWORD: $(EmailPassword)
-    EMAIL_ADDRESS: $(EmailAddress)
-    SENDGRID_API_KEY: $(SendGridKey)
+
+- script: |
+    $(dcr) format --check
+  displayName: 'Format'
+  workingDirectory: emailer
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+
+- script: |
+    $(dcr) lint_flake8
+    $(dcr) lint_mypy
+  displayName: 'Lint'
+  workingDirectory: emailer
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+
+
+- script: |
+    $(dcr) test --ignore=tests/ --cov-report xml --no-coverage-upload
+  displayName: 'Unit Tests'
+  workingDirectory: emailer
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
+
+
+- script: |
+    $(dcir) test --cov-report xml --cov-append tests/test_emailer.py
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
   displayName: 'Integration Tests'
   workingDirectory: emailer
 
 - script: |
     gcloud auth activate-service-account --key-file $(keyFile.secureFilePath)
-    poetry run task deploy --runtime $(python.runtime) --project $TEST_PROJECT --quiet
+    gcloud functions deploy $FUNCTION-test --trigger-resource eta-testing-bucket --trigger-event google.storage.object.finalize --memory 128MB --set-env-vars SENDGRID_API_KEY=$SENDGRID_API_KEY --max-instances 1 --region europe-west1 --entry-point $FUNCTION --runtime $(python.runtime) --project $TEST_PROJECT --quiet
   env:
+    FUNCTION: emailer
     TEST_PROJECT: $(TestProject)
     SENDGRID_API_KEY: $(SendGridKey)
   displayName: 'Deploy Tests'
   workingDirectory: emailer
 
 - script: |
-    poetry run task test --no-cov tests/test_events.py
+    $(dcir) test --no-cov tests/test_events.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
-    EMAIL_SERVER: $(EmailServer)
-    EMAIL_USERNAME: $(EmailUsername)
-    EMAIL_PASSWORD: $(EmailPassword)
-    EMAIL_ADDRESS: $(EmailAddress)
   displayName: 'Events Tests'
   workingDirectory: emailer
 
 - script: |
-    poetry run task deploy_clean --project $TEST_PROJECT  --quiet
+    gcloud functions delete $FUNCTION-test --region europe-west1 --project $TEST_PROJECT  --quiet
   env:
+    FUNCTION: emailer
     TEST_PROJECT: $(TestProject)
   displayName: 'Deploy Tests (Cleanup)'
   workingDirectory: emailer
