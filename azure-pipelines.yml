@@ -49,6 +49,7 @@ steps:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
 
 - script: |
+    $(dcr) lint_flake8
     $(dcr) lint_mypy
   displayName: 'Lint'
   workingDirectory: emailer
