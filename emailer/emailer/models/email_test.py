@@ -33,9 +33,7 @@ class TestEmail_to_sendgrid_email:
             "from": {"email": "from@domain.com"},
             "subject": "Email subject",
             "content": [{"type": "text/plain", "value": "Hello"}, {"type": "text/html", "value": "<p>Hello</p>"}],
-            "personalizations": [
-                {"to": [{"email": "rec1@domain.com"}, {"email": "rec2@yahoo.com", "name": "smart"}]}
-            ],
+            "personalizations": [{"to": [{"email": "rec1@domain.com"}, {"email": "rec2@yahoo.com", "name": "smart"}]}],
         }
 
     def test_with_one_category(self) -> None:
