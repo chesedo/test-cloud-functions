@@ -21,6 +21,7 @@ strategy:
 variables:
   dc: 'docker-compose -f .devcontainer/docker-compose.yml -f ../Container/docker-compose.yml -f ../Container/docker-compose.linux.yml'
   dcr: '$(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug'
+  dcir: '$(dc) run -w /workspace/emailer --entrypoint /bin/bash -e EMAIL_SERVER=$(EmailServer) -e EMAIL_USERNAME=$(EmailUsername) -e EMAIL_PASSWORD=$(EmailPassword) -e EMAIL_ADDRESS=$(EmailAddress) -e SENDGRID_API_KEY=$(SendGridKey) gcf-debug'
 
 steps:
 - task: UsePythonVersion@0
@@ -66,14 +67,9 @@ steps:
 
 
 - script: |
-    $(dcr) test --cov-report html --cov-append tests/test_emailer.py
+    $(dcir) test --cov-report html --cov-append tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
-    EMAIL_SERVER: $(EmailServer)
-    EMAIL_USERNAME: $(EmailUsername)
-    EMAIL_PASSWORD: $(EmailPassword)
-    EMAIL_ADDRESS: $(EmailAddress)
-    SENDGRID_API_KEY: $(SendGridKey)
   displayName: 'Integration Tests'
   workingDirectory: emailer
 
@@ -88,13 +84,9 @@ steps:
   workingDirectory: emailer
 
 - script: |
-    $(dcr) test --no-cov tests/test_events.py
+    $(dcir) test --no-cov tests/test_events.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
-    EMAIL_SERVER: $(EmailServer)
-    EMAIL_USERNAME: $(EmailUsername)
-    EMAIL_PASSWORD: $(EmailPassword)
-    EMAIL_ADDRESS: $(EmailAddress)
   displayName: 'Events Tests'
   workingDirectory: emailer
 
