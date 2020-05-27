@@ -11,4 +11,3 @@ coverage.xml
 test-output.xml
 
 .vscode/
-mypy.ini

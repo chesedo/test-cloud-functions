@@ -13,18 +13,6 @@ from base as debug
 
 ENV GOOGLE_APPLICATION_CREDENTIALS /_dev/credentials/gcp/dev-user.json
 
-COPY Container/requirements.devel.txt /tmp/pip-tmp/
-RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.devel.txt \
-   && rm -rf /tmp/pip-tmp
-
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-   && apt-get -y install --no-install-recommends git \
-   && apt-get autoremove -y \
-   && apt-get clean -y \
-   && rm -rf /var/lib/apt/lists/*
-ENV DEBIAN_FRONTEND=dialog
-
 # For access needed by aliases
 ARG FUNCTION="function-name"
 ENV FUNCTION $FUNCTION
@@ -36,3 +24,14 @@ RUN cat /tmp/aliases.sh >> ~/.bashrc \
 COPY Container/flake8.ini /root/.config/flake8
 COPY Container/mypy.ini /root/.config/mypy/config
 
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+   && apt-get -y install --no-install-recommends git \
+   && apt-get autoremove -y \
+   && apt-get clean -y \
+   && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=dialog
+
+COPY Container/requirements.devel.txt /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.devel.txt \
+   && rm -rf /tmp/pip-tmp

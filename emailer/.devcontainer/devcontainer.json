@@ -2,17 +2,13 @@
 {
     "name": "Python 3 - emailer",
 
-    "build": {
-        "dockerfile": "../../Container/Dockerfile",
-        "context": "../..",
-        "args": {
-            // Update 'VARIANT' to pick a Python version. Rebuild the container
-            // if it already exists to update. Available variants: 3, 3.6, 3.7, 3.8
-            "VARIANT": "3.7",
-            "FUNCTION": "emailer"
-        },
-        "target": "debug"
-    },
+    "dockerComposeFile": [
+        "docker-compose.yml",
+        "../../Container/docker-compose.yml",
+    ],
+
+    "service": "gcf-debug",
+	"workspaceFolder": "/workspace/emailer",
 
     // Set *default* container specific settings.json values on container create.
     "settings": {
@@ -33,8 +29,6 @@
             "--doctest-modules",
             "--doctest-continue-on-failure",
             "--ignore=main.py",
-            "--cov $FUNCTION",
-            "$FUNCTION"
         ],
 
         "python.testing.unittestEnabled": false,
@@ -59,13 +53,6 @@
         "ryanluker.vscode-coverage-gutters",
         "usernamehw.errorlens"
     ],
-
-    // Tmp
-    "mounts": [
-        "source=tmp-extensions,target=/root/.vscode-server/extensions,type=volume",
-        // And/or for VS Code Insiders
-        "source=tmp-insider-extensions,target=/root/.vscode-server-insiders/extensions,type=volume",
-    ]
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
