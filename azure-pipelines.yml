@@ -44,6 +44,8 @@ steps:
     $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug format --check
   displayName: 'Format'
   workingDirectory: emailer
+  env:
+    GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
 
 - script: |
     $(dc) run -w /workspace/emailer --entrypoint /bin/bash gcf-debug lint
