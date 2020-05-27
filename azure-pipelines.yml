@@ -59,7 +59,7 @@ steps:
 
 
 - script: |
-    $(dcr) test --ignore=tests/ --cov-report html
+    $(dcr) test --ignore=tests/ --cov-report xml
   displayName: 'Unit Tests'
   workingDirectory: emailer
   env:
@@ -67,7 +67,7 @@ steps:
 
 
 - script: |
-    $(dcir) test --cov-report html --cov-append tests/test_emailer.py
+    $(dcir) test --cov-report xml --cov-append tests/test_emailer.py
   env:
     GOOGLE_APPLICATION_CREDENTIALS: $(keyFile.secureFilePath)
   displayName: 'Integration Tests'
