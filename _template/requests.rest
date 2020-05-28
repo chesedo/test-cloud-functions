@@ -1,6 +1,7 @@
+# Simple request for local testing
 POST http://localhost:8080/
 content-type: application/json
-# Simple request for local testing
+
 {
     "data": { },
     "context": { }
