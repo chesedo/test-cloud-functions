@@ -3,3 +3,5 @@ services:
     gcf-debug:
         volumes:
             - C:\_dev\credentials\gcp\dev-user.json:/_dev/credentials/gcp/dev-user.json:cached
+        environment:
+            - GOOGLE_APPLICATION_CREDENTIALS=/_dev/credentials/gcp/dev-user.json

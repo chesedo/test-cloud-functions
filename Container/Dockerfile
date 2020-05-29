@@ -11,8 +11,6 @@ RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requ
 
 from base as debug
 
-ENV GOOGLE_APPLICATION_CREDENTIALS /_dev/credentials/gcp/dev-user.json
-
 # For access needed by aliases
 ARG FUNCTION="function-name"
 ENV FUNCTION $FUNCTION

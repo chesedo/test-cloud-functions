@@ -1,0 +1,22 @@
+steps:
+- name: 'gcr.io/$PROJECT_ID/docker-compose'
+  args:
+    - '-f'
+    - '.devcontainer/docker-compose.yml'
+    - '-f'
+    - '../Container/docker-compose.yml'
+    - '-f'
+    - '../Container/docker-compose.cloud.yml'
+    - 'build'
+  dir: ${_FUNCTION}
+  env:
+    - PROJECT_ID=$PROJECT_ID
+    - FUNCTION=${_FUNCTION}
+
+substitutions:
+  _FUNCTION: emailer
+
+timeout: 120s
+
+images:
+- 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'

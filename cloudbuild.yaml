@@ -1,7 +1,0 @@
-steps:
-- name: 'gcr.io/$PROJECT_ID/docker-compose'
-  args: [
-    'docker-compose -f .devcontainer/docker-compose.yml -f ../Container/docker-compose.yml -f ../Container/docker-compose.linux.yml',
-    'build'
-  ]
-  dir: 'emailer'

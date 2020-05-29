@@ -1,0 +1,93 @@
+steps:
+- id: format
+  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  args:
+    - 'format'
+    - '--check'
+  entrypoint: '/bin/bash'
+  waitFor: ['-']
+
+- id: flake8
+  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  args:
+    - 'lint_flake8'
+  entrypoint: '/bin/bash'
+  waitFor:
+    - format
+
+- id: mypy
+  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  args:
+    - 'lint_mypy'
+  entrypoint: '/bin/bash'
+  waitFor:
+    - format
+
+- id: Unit tests
+  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  args:
+    - 'test'
+    - '--ignore=tests/'
+    - '--cov-report=xml'
+  entrypoint: '/bin/bash'
+  waitFor:
+    - flake8
+    - mypy
+    - format
+  env:
+    - FUNCTION=${_FUNCTION}
+
+- id: Get Secrets
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', 'gcloud secrets versions access latest --secret=gcf-testing-secrets > .env' ]
+
+- id: Integration tests
+  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  args:
+    - 'test'
+    - '--cov-report=xml'
+    - '--cov-append'
+    - 'tests/test_${_FUNCTION}.py'
+  entrypoint: '/bin/bash'
+  env:
+    - FUNCTION=${_FUNCTION}
+
+- id: Deploy test
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - functions
+  - deploy
+  - ${_FUNCTION}-test
+  - --trigger-resource=${_TEST_BUCKET}
+  - --trigger-event=google.storage.object.finalize
+  - --memory=128MB
+  - --max-instances=1
+  - --region=europe-west1
+  - --entry-point=${_FUNCTION}
+  - --runtime=${_PYTHON_RUNTIME}
+
+- id: Event tests
+  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  args:
+    - test
+    - --no-cov
+    - tests/test_events.py
+  entrypoint: '/bin/bash'
+  env:
+    - FUNCTION=${_FUNCTION}
+
+- id: Deploy test (Cleanup)
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - functions
+  - delete
+  - ${_FUNCTION}-test
+  - --region=europe-west1
+
+timeout: 180s
+
+substitutions:
+  _FUNCTION: emailer
+  _PYTHON_RUNTIME: python37
+  _TEST_BUCKET: eta-testing-bucket
