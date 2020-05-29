@@ -22,7 +22,7 @@
 
         "python.formatting.provider": "black",
         "python.formatting.blackArgs": [
-            "--line-length 119"
+            "--line-length=119"
         ],
 
         "python.testing.pytestEnabled": true,
@@ -39,6 +39,8 @@
             "source.organizeImports": true,
             "source.fixAll": true
         },
+
+        "editor.formatOnSave": true,
 
         "coverage-gutters.showGutterCoverage": false,
         "coverage-gutters.showLineCoverage": true
