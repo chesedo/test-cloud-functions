@@ -105,7 +105,7 @@ class TestSendEmail:
                 plain_text="Plain text",
                 to=["john@doe.com"],
                 from_email="from@domain.com",
-                categories=["cat1", "emailer", "0.1.0"],
+                categories=["cat1", "emailer", "0.2.0"],
                 attachment=Attachment(content=b"Some text", mime_type="fake/text", name="FileName.txt",),
             )
         )
@@ -131,7 +131,7 @@ class TestSendEmail:
                 plain_text="Plain text",
                 to=["john@doe.com"],
                 from_email="from@domain.com",
-                categories=["cat1", "emailer", "0.1.0"],
+                categories=["cat1", "emailer", "0.2.0"],
                 attachment=Attachment(content=b"Some text", mime_type="fake/text", name="FileName.txt",),
             )
         )
