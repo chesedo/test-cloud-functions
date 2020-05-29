@@ -21,7 +21,7 @@ class SendGrid(IEmailer):
         )
         lApiKey = lSecretClient.access_secret_version(lSecretName)
 
-        self.client = SendGridAPIClient(api_key=lApiKey.payload.data.decode('UTF-8'))
+        self.client = SendGridAPIClient(api_key=lApiKey.payload.data.decode("UTF-8"))
 
     def send(self, aEmail: Email) -> bool:
         """Send out the given email
