@@ -1,12 +1,9 @@
 terraform/
 .git/
-_template/
 DevOps/
 
 *.gif
 
-tests/
-*_test.py
 *.rest
 
 __pycache__/
@@ -20,3 +17,4 @@ test-output.xml
 
 .vscode/
 .env.sample
+.env

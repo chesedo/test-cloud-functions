@@ -6,6 +6,7 @@ steps:
     - '--check'
   entrypoint: '/bin/bash'
   waitFor: ['-']
+  dir: ${_FUNCTION}
 
 - id: flake8
   name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
@@ -14,6 +15,7 @@ steps:
   entrypoint: '/bin/bash'
   waitFor:
     - format
+  dir: ${_FUNCTION}
 
 - id: mypy
   name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
@@ -22,6 +24,7 @@ steps:
   entrypoint: '/bin/bash'
   waitFor:
     - format
+  dir: ${_FUNCTION}
 
 - id: Unit tests
   name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
@@ -36,11 +39,13 @@ steps:
     - format
   env:
     - FUNCTION=${_FUNCTION}
+  dir: ${_FUNCTION}
 
 - id: Get Secrets
   name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
   args: [ '-c', 'gcloud secrets versions access latest --secret=gcf-testing-secrets > .env' ]
+  dir: ${_FUNCTION}
 
 - id: Integration tests
   name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
@@ -52,6 +57,7 @@ steps:
   entrypoint: '/bin/bash'
   env:
     - FUNCTION=${_FUNCTION}
+  dir: ${_FUNCTION}
 
 - id: Deploy test
   name: 'gcr.io/cloud-builders/gcloud'
@@ -66,6 +72,7 @@ steps:
   - --region=europe-west1
   - --entry-point=${_FUNCTION}
   - --runtime=${_PYTHON_RUNTIME}
+  dir: ${_FUNCTION}
 
 - id: Event tests
   name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
@@ -76,6 +83,7 @@ steps:
   entrypoint: '/bin/bash'
   env:
     - FUNCTION=${_FUNCTION}
+  dir: ${_FUNCTION}
 
 - id: Deploy test (Cleanup)
   name: 'gcr.io/cloud-builders/gcloud'
@@ -84,6 +92,7 @@ steps:
   - delete
   - ${_FUNCTION}-test
   - --region=europe-west1
+  dir: ${_FUNCTION}
 
 timeout: 180s
 
