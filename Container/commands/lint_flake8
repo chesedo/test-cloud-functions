@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
-flake8 $@
+flake8 --config=/root/.config/flake8 $@

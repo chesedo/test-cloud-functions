@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
-mypy . $@
+mypy --config-file /root/.config/mypy/config .
