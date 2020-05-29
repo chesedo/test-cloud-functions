@@ -97,6 +97,6 @@ steps:
 timeout: 180s
 
 substitutions:
-  _FUNCTION: emailer
+  _FUNCTION: _template
   _PYTHON_RUNTIME: python37
   _TEST_BUCKET: eta-testing-bucket

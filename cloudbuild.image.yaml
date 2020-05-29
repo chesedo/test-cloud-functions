@@ -14,7 +14,7 @@ steps:
     - FUNCTION=${_FUNCTION}
 
 substitutions:
-  _FUNCTION: emailer
+  _FUNCTION: _template
 
 timeout: 120s
 
