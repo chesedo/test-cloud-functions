@@ -1,38 +1,38 @@
 steps:
 - id: format
-  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  name: gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest
   args:
-    - 'format'
-    - '--check'
-  entrypoint: '/bin/bash'
+    - format
+    - --check
+  entrypoint: bash
   waitFor: ['-']
   dir: ${_FUNCTION}
 
 - id: flake8
-  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  name: gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest
   args:
-    - 'lint_flake8'
-  entrypoint: '/bin/bash'
+    - lint_flake8
+  entrypoint: bash
   waitFor:
     - format
   dir: ${_FUNCTION}
 
 - id: mypy
-  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  name: gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest
   args:
-    - 'lint_mypy'
-  entrypoint: '/bin/bash'
+    - lint_mypy
+  entrypoint: bash
   waitFor:
     - format
   dir: ${_FUNCTION}
 
 - id: Unit tests
-  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  name: gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest
   args:
-    - 'test'
-    - '--ignore=tests/'
-    - '--cov-report=xml'
-  entrypoint: '/bin/bash'
+    - test
+    - --ignore=tests/
+    - --cov-report=xml
+  entrypoint: bash
   waitFor:
     - flake8
     - mypy
@@ -43,24 +43,24 @@ steps:
 
 - id: Get Secrets
   name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
+  entrypoint: bash
   args: [ '-c', 'gcloud secrets versions access latest --secret=gcf-testing-secrets > .env' ]
   dir: ${_FUNCTION}
 
 - id: Integration tests
-  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  name: gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest
   args:
-    - 'test'
-    - '--cov-report=xml'
-    - '--cov-append'
-    - 'tests/test_${_FUNCTION}.py'
-  entrypoint: '/bin/bash'
+    - test
+    - --cov-report=xml
+    - --cov-append
+    - tests/test_${_FUNCTION}.py
+  entrypoint: bash
   env:
     - FUNCTION=${_FUNCTION}
   dir: ${_FUNCTION}
 
 - id: Deploy test
-  name: 'gcr.io/cloud-builders/gcloud'
+  name: gcr.io/cloud-builders/gcloud
   args:
   - functions
   - deploy
@@ -75,18 +75,18 @@ steps:
   dir: ${_FUNCTION}
 
 - id: Event tests
-  name: 'gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest'
+  name: gcr.io/$PROJECT_ID/gcf-debug-${_FUNCTION}:latest
   args:
     - test
     - --no-cov
     - tests/test_events.py
-  entrypoint: '/bin/bash'
+  entrypoint: bash
   env:
     - FUNCTION=${_FUNCTION}
   dir: ${_FUNCTION}
 
 - id: Deploy test (Cleanup)
-  name: 'gcr.io/cloud-builders/gcloud'
+  name: gcr.io/cloud-builders/gcloud
   args:
   - functions
   - delete

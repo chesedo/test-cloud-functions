@@ -1,6 +1,6 @@
 steps:
 - id: Deploy
-  name: 'gcr.io/cloud-builders/gcloud'
+  name: gcr.io/cloud-builders/gcloud
   args:
   - functions
   - deploy
