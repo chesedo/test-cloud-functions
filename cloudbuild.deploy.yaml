@@ -20,4 +20,4 @@ substitutions:
   _FUNCTION: _template
   _PYTHON_RUNTIME: python37
   _BUCKET: eta-testing-bucket
-  _MAX_INSTANCES: 3
+  _MAX_INSTANCES: "3"
