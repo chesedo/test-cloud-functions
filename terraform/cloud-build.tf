@@ -46,7 +46,10 @@ resource "google_cloudbuild_trigger" "gcf-emailer-deploy" {
   }
 
   substitutions = {
-    _FUNCTION = "emailer"
+    _FUNCTION       = "emailer"
+    _PYTHON_RUNTIME = "python37"
+    _BUCKET         = "eta-testing-bucket"
+    _MAX_INSTANCES  = 3
   }
 }
 

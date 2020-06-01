@@ -5,9 +5,19 @@ steps:
   - functions
   - deploy
   - ${_FUNCTION}
+  - --trigger-resource=${_BUCKET}
+  - --trigger-event=google.storage.object.finalize
+  - --memory=128MB
+  - --max-instances=${_MAX_INSTANCES}
+  - --region=europe-west1
+  - --entry-point=${_FUNCTION}
+  - --runtime=${_PYTHON_RUNTIME}
   dir: ${_FUNCTION}
 
 timeout: 180s
 
 substitutions:
   _FUNCTION: _template
+  _PYTHON_RUNTIME: python37
+  _BUCKET: eta-testing-bucket
+  _MAX_INSTANCES: 3
