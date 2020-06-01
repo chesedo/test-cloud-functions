@@ -1,5 +1,0 @@
-version: '3.4'
-services:
-    gcf-debug:
-        volumes:
-            - ${GOOGLE_APPLICATION_CREDENTIALS}:/_dev/credentials/gcp/dev-user.json:cached

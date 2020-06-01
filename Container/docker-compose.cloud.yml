@@ -1,0 +1,7 @@
+version: '3.4'
+services:
+    gcf-debug:
+        image: 'gcr.io/${PROJECT_ID}/gcf-debug-${FUNCTION}:latest'
+        environment:
+            - EMAIL_SERVER
+        entrypoint: '/bin/bash'

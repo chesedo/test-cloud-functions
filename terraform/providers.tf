@@ -4,3 +4,6 @@ provider "google" {
   region      = var.gcp.region
   version     = "~> 3.15"
 }
+
+data "google_client_config" "current" {
+}

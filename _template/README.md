@@ -14,3 +14,8 @@ The following environment variables are used by the GCF:
 - ...
 
 See `.env.sample` for those needed by the tests.
+
+## Secret
+A set of secrets that must be in Secret Manager:
+
+- ...

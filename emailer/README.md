@@ -15,8 +15,9 @@ It uses the following metadata on the file for the email:
 Nothing is send when no meta-data is present.
 
 ## Environment Variables
-The following environment variables are used by the GCF:
-
-- SENDGRID_API_KEY
-
 See `.env.sample` for those needed by the tests.
+
+## Secrets
+A secret is needed in Secret Manager to authenticate with SendGrid:
+
+- sendgrid-api-key

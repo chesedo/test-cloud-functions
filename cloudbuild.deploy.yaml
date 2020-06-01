@@ -1,0 +1,13 @@
+steps:
+- id: Deploy
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - functions
+  - deploy
+  - ${_FUNCTION}
+  dir: ${_FUNCTION}
+
+timeout: 180s
+
+substitutions:
+  _FUNCTION: _template

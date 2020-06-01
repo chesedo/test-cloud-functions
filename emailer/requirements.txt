@@ -1,3 +1,4 @@
+google-cloud-secret-manager==1.0.0
 google-cloud-storage==1.27.0
 mypy_extensions==0.4.3
 sendgrid==6.2.1
