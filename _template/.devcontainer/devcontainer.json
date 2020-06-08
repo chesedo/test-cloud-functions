@@ -4,8 +4,8 @@
 
     "dockerComposeFile": [
         "docker-compose.yml",
-        "../../Container/docker-compose.yml",
-        "../../Container/docker-compose.windows.yml",
+        "../../_container/docker-compose.yml",
+        "../../_container/docker-compose.windows.yml",
     ],
 
     "service": "gcf-debug",
