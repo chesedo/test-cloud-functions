@@ -1,10 +1,10 @@
 import logging
 from typing import Any
 
-from emailer.CloudStorage import CloudStorage
-from emailer.models.file_event import FileEvent
-from emailer.SendEmail import SendEmail
-from emailer.SendGrid import SendGrid
+from lib.CloudStorage import CloudStorage
+from lib.models.file_event import FileEvent
+from lib.SendEmail import SendEmail
+from lib.SendGrid import SendGrid
 
 # Cold run code
 SendGridClient = SendGrid()

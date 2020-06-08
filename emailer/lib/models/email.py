@@ -7,7 +7,7 @@ from typing import List, Optional
 from sendgrid.helpers.mail import Attachment as SGAttachment
 from sendgrid.helpers.mail import Category, Mail
 
-from emailer.models.file_event import EmailMeta
+from lib.models.file_event import EmailMeta
 
 
 @dataclass

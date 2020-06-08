@@ -1,10 +1,10 @@
 import logging
 from typing import Optional
 
-import emailer.models.file_event as fe
-from emailer import __version__
-from emailer.abstractions import IBucketReader, IEmailer
-from emailer.models.email import Attachment, Email
+import lib.models.file_event as fe
+from lib import __version__
+from lib.abstractions import IBucketReader, IEmailer
+from lib.models.email import Attachment, Email
 
 
 def SendEmail(aEvent: fe.FileEvent, aEmailer: IEmailer, aBucketReader: IBucketReader) -> None:

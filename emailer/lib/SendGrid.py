@@ -4,8 +4,8 @@ from typing import cast
 from google.cloud import secretmanager
 from sendgrid import SendGridAPIClient
 
-from emailer.abstractions import IEmailer
-from emailer.models.email import Email
+from lib.abstractions import IEmailer
+from lib.models.email import Email
 
 
 class SendGrid(IEmailer):

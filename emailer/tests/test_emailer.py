@@ -3,7 +3,7 @@ from imaplib import IMAP4
 
 from flask import Flask, request
 
-from emailer import __version__
+from lib import __version__
 from main import emailer
 
 from .utils import Random, get_subject, wait_for_email
