@@ -12,7 +12,7 @@ class SendGrid(IEmailer):
     def __init__(self) -> None:
         """Create a new instance of the SendGrid wrapper.
 
-        This will try to read the `SENDGRID_API_KEY` environment varaible
+        This will try to read the `sendgrid-api-key` secret
         """
 
         lSecretClient = secretmanager.SecretManagerServiceClient()
