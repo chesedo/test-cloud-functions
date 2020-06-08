@@ -2,7 +2,7 @@
 Just a repo to prototype the development process for cloud functions.
 
 ## Getting Started
-Running the scripts in `DevOps` will get your development environment setup. There is one for Windows that assumes [chocolatey](https://chocolatey.org/) is installed. The other is for Linux / WSL.
+Running the scripts in `_DevOps` will get your development environment setup. There is one for Windows that assumes [chocolatey](https://chocolatey.org/) is installed. The other is for Linux / WSL.
 
 After this, open VSCode. Go to the remote window in the bottom left and choose `Remote Containers: Open Folder in Container`. Choose the cloud function you want to open from the browser. It will take a while to build a Docker container and start your development environment in it.
 

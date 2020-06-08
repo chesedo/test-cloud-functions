@@ -1,6 +1,6 @@
 terraform/
 .git/
-DevOps/
+_DevOps/
 
 *.gif
 

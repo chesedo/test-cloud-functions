@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock, patch
 
-from emailer.models.email import Attachment, Email
-from emailer.models.file_event import FileEvent
-from emailer.SendEmail import SendEmail
+from lib.models.email import Attachment, Email
+from lib.models.file_event import FileEvent
+from lib.SendEmail import SendEmail
 
 
 class TestSendEmail:
@@ -22,9 +22,9 @@ class TestSendEmail:
             },
         }
 
-    @patch("emailer.SendEmail.logging")
-    @patch("emailer.abstractions.IEmailer")
-    @patch("emailer.abstractions.IBucketReader")
+    @patch("lib.SendEmail.logging")
+    @patch("lib.abstractions.IEmailer")
+    @patch("lib.abstractions.IBucketReader")
     def test_file_was_not_created(
         self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
@@ -37,9 +37,9 @@ class TestSendEmail:
         aLoggingMock.info.assert_called_with("FileName.txt was not created. Will skip it.")
         aLoggingMock.info.called_times(1)
 
-    @patch("emailer.SendEmail.logging")
-    @patch("emailer.abstractions.IEmailer")
-    @patch("emailer.abstractions.IBucketReader")
+    @patch("lib.SendEmail.logging")
+    @patch("lib.abstractions.IEmailer")
+    @patch("lib.abstractions.IBucketReader")
     def test_file_missing_metadata(
         self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
@@ -52,9 +52,9 @@ class TestSendEmail:
         aLoggingMock.info.assert_called_with("FileName.txt does not contain any metadata. It will be skipped.")
         aLoggingMock.info.called_times(1)
 
-    @patch("emailer.SendEmail.logging")
-    @patch("emailer.abstractions.IEmailer")
-    @patch("emailer.abstractions.IBucketReader")
+    @patch("lib.SendEmail.logging")
+    @patch("lib.abstractions.IEmailer")
+    @patch("lib.abstractions.IBucketReader")
     def test_file_missing_email_metadata(
         self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
@@ -69,9 +69,9 @@ class TestSendEmail:
         )
         aLoggingMock.info.called_times(1)
 
-    @patch("emailer.SendEmail.logging")
-    @patch("emailer.abstractions.IEmailer")
-    @patch("emailer.abstractions.IBucketReader")
+    @patch("lib.SendEmail.logging")
+    @patch("lib.abstractions.IEmailer")
+    @patch("lib.abstractions.IBucketReader")
     def test_failed_to_fetch_file(
         self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
@@ -86,9 +86,9 @@ class TestSendEmail:
         aLoggingMock.info.assert_called_with("FileName.txt failed to download.")
         aLoggingMock.info.called_times(1)
 
-    @patch("emailer.SendEmail.logging")
-    @patch("emailer.abstractions.IEmailer")
-    @patch("emailer.abstractions.IBucketReader")
+    @patch("lib.SendEmail.logging")
+    @patch("lib.abstractions.IEmailer")
+    @patch("lib.abstractions.IBucketReader")
     def test_sending_fails(
         self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:
@@ -112,9 +112,9 @@ class TestSendEmail:
 
         aLoggingMock.info.assert_called_with("Failed to send email")
 
-    @patch("emailer.SendEmail.logging")
-    @patch("emailer.abstractions.IEmailer")
-    @patch("emailer.abstractions.IBucketReader")
+    @patch("lib.SendEmail.logging")
+    @patch("lib.abstractions.IEmailer")
+    @patch("lib.abstractions.IBucketReader")
     def test_sending_succeeds(
         self, aBucketReaderMock: MagicMock, aEmailerMock: MagicMock, aLoggingMock: MagicMock,
     ) -> None:

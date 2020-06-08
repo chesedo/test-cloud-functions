@@ -4,9 +4,9 @@ steps:
     - -f
     - .devcontainer/docker-compose.yml
     - -f
-    - ../Container/docker-compose.yml
+    - ../_container/docker-compose.yml
     - -f
-    - ../Container/docker-compose.cloud.yml
+    - ../_container/docker-compose.cloud.yml
     - build
   dir: ${_FUNCTION}
   env:

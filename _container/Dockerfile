@@ -15,14 +15,14 @@ from base as debug
 ARG FUNCTION="function-name"
 ENV FUNCTION $FUNCTION
 
-COPY Container/aliases.sh /tmp/
+COPY _container/aliases.sh /tmp/
 RUN cat /tmp/aliases.sh >> ~/.bashrc \
    && rm -f /tmp/aliases.sh
 
-COPY Container/commands/* /usr/bin/
+COPY _container/commands/* /usr/bin/
 
-COPY Container/flake8.ini /root/.config/flake8
-COPY Container/mypy.ini /root/.config/mypy/config
+COPY _container/flake8.ini /root/.config/flake8
+COPY _container/mypy.ini /root/.config/mypy/config
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -32,6 +32,6 @@ RUN apt-get update \
    && rm -rf /var/lib/apt/lists/*
 ENV DEBIAN_FRONTEND=dialog
 
-COPY Container/requirements.devel.txt /tmp/pip-tmp/
+COPY _container/requirements.devel.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.devel.txt \
    && rm -rf /tmp/pip-tmp

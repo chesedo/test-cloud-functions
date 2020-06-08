@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -a
-[ -f .env ] && . .env
-set +a
-
-pytest --doctest-modules --doctest-continue-on-failure --ignore=main.py --cov $FUNCTION $@

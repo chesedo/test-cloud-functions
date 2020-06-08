@@ -4,15 +4,15 @@ from typing import cast
 from google.cloud import secretmanager
 from sendgrid import SendGridAPIClient
 
-from emailer.abstractions import IEmailer
-from emailer.models.email import Email
+from lib.abstractions import IEmailer
+from lib.models.email import Email
 
 
 class SendGrid(IEmailer):
     def __init__(self) -> None:
         """Create a new instance of the SendGrid wrapper.
 
-        This will try to read the `SENDGRID_API_KEY` environment varaible
+        This will try to read the `sendgrid-api-key` secret
         """
 
         lSecretClient = secretmanager.SecretManagerServiceClient()

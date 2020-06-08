@@ -3,7 +3,7 @@ services:
     gcf-debug:
         build:
             context: ../../
-            dockerfile: Container/Dockerfile
+            dockerfile: _container/Dockerfile
             target: debug
             args:
                 VARIANT: 3.7

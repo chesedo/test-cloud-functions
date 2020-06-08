@@ -2,7 +2,7 @@ from typing import Optional, cast
 
 from google.cloud import storage
 
-from emailer.abstractions import IBucketReader
+from lib.abstractions import IBucketReader
 
 
 class CloudStorage(IBucketReader):

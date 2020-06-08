@@ -14,7 +14,7 @@ resource "google_cloudbuild_trigger" "gcf-emailer-image" {
   provider    = google-beta
 
   description = "Rebuild GCF emailer image when needed"
-  filename    = "cloudbuild.image.yaml"
+  filename    = "_DevOps/cloudbuild.image.yaml"
 
   github {
     name  = "test-cloud-functions"
@@ -34,7 +34,7 @@ resource "google_cloudbuild_trigger" "gcf-emailer-deploy" {
   provider    = google-beta
 
   description = "Deploy emailer GCF"
-  filename    = "cloudbuild.deploy.yaml"
+  filename    = "_DevOps/cloudbuild.deploy.yaml"
 
   github {
     name  = "test-cloud-functions"
@@ -57,7 +57,7 @@ resource "google_cloudbuild_trigger" "gcf-emailer-test" {
   provider    = google-beta
 
   description = "Auto test branches that made edits to the emailer GCF"
-  filename    = "cloudbuild.test.yaml"
+  filename    = "_DevOps/cloudbuild.test.yaml"
   included_files = [ "emailer/**" ]
 
   github {
